@@ -1,0 +1,75 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);}
+
+.card__body {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card__text-conteiner {
+    max-width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.card__title {
+    min-width: 210px;
+    margin: 14px 0 9px 14px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.card__duration {
+    min-width: 37px;
+    margin: 0 0 14px 14px;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #A0A0A0;
+}
+
+.card__button {
+    width: 30px;
+    height: 30px;
+    margin: auto 14px auto 26px;
+    border: none;
+    background-size: cover;
+    background-color: #F4F4F4;
+    background: url(../../images/card-button.svg);
+    background-repeat: no-repeat;
+    object-fit: contain;
+}
+
+.card__button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.card__button-saved {
+    background: url(../../images/card-button-saved.svg);
+}
+
+.card__button-delete {
+    background: url(../../images/card-button-delete.svg);
+}
+
+.card__image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 364/203;
+    object-fit: cover;
+    transition: opacity .3s ease;
+}
+
+.card__image:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
