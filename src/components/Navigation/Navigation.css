@@ -1,0 +1,50 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 60px;
+    width: 100%;
+}
+
+.navigation__films-container {
+   margin: 0 auto;
+}
+
+.navigation__film {
+    margin-right:16px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.navigation__film:last-of-type{
+    margin-right: 0;
+}
+
+.navigation__film:focus{
+    font-weight: 500;
+}
+
+.navigation__film:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.navigation__account-link {
+    width: 100px;
+    height: 32px;
+    margin: 0;
+}
+
+.navigation__button {
+    width:100px;
+    height: 32px;
+}
+
+.navigation__button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}

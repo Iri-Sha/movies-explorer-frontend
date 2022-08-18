@@ -1,0 +1,131 @@
+.about-project {
+    margin: 0 auto;
+    padding: 110px 70px;
+}
+
+.about-project__title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 23px;
+}
+
+.about-project__items {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 40px;
+    justify-content: space-between;
+    margin: 70px 0 110px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.about-project__item {
+    max-width: 550px;
+}
+
+.about-project__subtitle {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+.about-project__text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 26px 0 0;
+}
+
+.about-project__progressbar {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 36px;
+    row-gap: 14px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.about-project__progressbar-text {
+    margin: 0;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #A0A0A0;
+}
+
+.about-project__progressbar-text_background_blue {
+    padding-top: 9px;
+    background-color: #3456F3;
+    color: #FFFFFF;
+}
+
+.about-project__progressbar-text_background_gray {
+    padding-top: 9px;
+    background-color: #F2F2F2;
+    color: #000000;
+}
+
+@media screen and (max-width: 780px) {
+    .about-project {
+      padding: 90px 50px;
+    }
+
+    .about-project__items {
+        gap: 30px;
+        margin: 70px 0 93px;
+    }
+  
+    .about-project__text {
+      font-size: 12px;
+      line-height: 18px;
+      margin: 22px 0 0;
+    }
+  
+    .about-project__progressbar-text {
+      font-weight: 400;
+    }
+}
+  
+@media screen and (max-width: 520px) {
+    .about-project {
+      padding: 70px 18px;
+    }
+  
+    .about-project__title {
+      font-size: 18px;
+      line-height: 22px;
+      padding: 0 0 28px 0;
+    }
+  
+    .about-project__items {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      margin: 60px 0;
+    }
+  
+    .about-project__text {
+      font-size: 11px;
+      line-height: 16px;
+      margin: 16px 0 0;
+    }
+  
+    .about-project__progressbar {
+        grid-template-rows: 35px;
+        row-gap: 10px;
+    }
+
+    .about-project__progressbar-text {
+        font-size: 11px;
+        line-height: 13px;
+    }
+}
