@@ -5,7 +5,7 @@ function Portfolio(){
     return(
         <section className="portfolio">
             <h3 className="portfolio__title">Портфолио</h3>
-            <ul className="portfolio__links">
+            <div className="portfolio__links">
                 <a href="https://iri-sha.github.io/how-to-learn/" className="portfolio__link" target="_blank" rel="noreferrer">
                     <p className="portfolio__name">Статичный сайт</p>
                     <img src={arrow} className="portfolio__icon" alt="Стрелка"/>
@@ -18,7 +18,7 @@ function Portfolio(){
                     <p className="portfolio__name">Одностраничное приложение</p>
                     <img src={arrow} className="portfolio__icon" alt="Стрелка"/>
                 </a>
-            </ul>
+            </div>
         </section>
     )
 }

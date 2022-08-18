@@ -80,7 +80,7 @@
 }
 
 .menu-burger__button {
-    background-color: #FAFAFA;
+    background: none;
     border: none;
     width: 44px;
     height: 44px;

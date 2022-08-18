@@ -35,7 +35,7 @@ function BurgerMenu({isColor, isMain}) {
             <button className="menu-burger__button" type="button" onClick={handleOpenBurger}>
                 < img src={burger} alt="Меню"/>
             </button>
-        )}`
+        )}
         </>
     )
 }
