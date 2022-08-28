@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import account from '../../images/account.svg';
 import burger from '../../images/burger.svg';
 
-function BurgerMenu({isColor, isMain}) {
+function BurgerMenu() {
 
     const [isBurgerOpen, setIsMenuOpen] = React.useState(false)
 
@@ -23,7 +23,7 @@ function BurgerMenu({isColor, isMain}) {
                 <div className="menu__overlay"></div>
                 <button className="menu__close-btn" type="button" onClick={handleCloseBurger}></button>
                 <div className="menu__link-container">
-                <Link to="/" className="menu__link" >Главная</Link>
+                <NavLink exact to="/" className="menu__link" activeClassName="menu__link_active">Главная</NavLink>
                 <NavLink to="/movies" className="menu__link" activeClassName="menu__link_active">Фильмы</NavLink>
                 <NavLink to="/saved-movies" className="menu__link" activeClassName="menu__link_active">Сохраненные фильмы</NavLink>
                 </div>

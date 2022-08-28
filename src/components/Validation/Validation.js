@@ -1,0 +1,68 @@
+import React from "react";
+import validator from "validator";
+import { regex } from "../../utils/constants";
+
+export  default function useFormWithValidation() {
+    const [values, setValues] = React.useState({});
+    const [errors, setErrors] = React.useState({});
+    const [isValid, setIsValid] = React.useState(false);
+  
+    const handleChange = (event) => {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        const checked = target.value;
+        setValues({
+          ...values,
+          [name]: event.target.type === "checkbox" ? checked : value});
+        setErrors({...errors, [name]: target.validationMessage });
+        setIsValid(target.closest("form").checkValidity());
+
+        if(name === 'name') {
+            if(value === '') {
+                setErrors({...errors, [name]: 'Вы пропустили это поле.' });
+            } else if(!regex.test(value)) {
+            setErrors({...errors, [name]: 'Поле может содержать только латиницу, кириллицу, пробел или дефис.' });
+            setIsValid(false)
+            } else {
+            setErrors({...errors, [name]: target.validationMessage });
+            }
+        }
+
+        if(name === 'email') {
+            if(value === '') {
+              setErrors({...errors, [name]: 'Вы пропустили это поле.' });
+            } else if(!validator.isEmail(value)) {
+              setErrors({...errors, [name]: 'Некорректный E-Mail.' });
+              setIsValid(false)
+            } else {
+              setErrors({...errors, [name]: target.validationMessage });
+            }
+        }
+          
+    };
+
+    const updateErrorMessage = (e, name, message) => {
+      setErrors({ ...errors, [name]: message });
+    };
+
+    const checkValidity = (e) => {
+      e.preventDefault();
+      const err = {};
+      e.target.querySelectorAll("input").forEach((input) => {
+        err[input.name] = input.validationMessage;
+        setErrors(err);
+      });
+    };
+  
+    const resetForm = React.useCallback(
+        (newValues = {}, newErrors = {}, newIsValid = false) => {
+            setValues(newValues);
+            setErrors(newErrors);
+            setIsValid(newIsValid);
+        },
+        [setValues, setErrors, setIsValid]
+    );
+  
+    return { values, handleChange, errors, isValid, resetForm, updateErrorMessage, checkValidity };
+  }

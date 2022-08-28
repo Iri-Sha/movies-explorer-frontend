@@ -17,7 +17,7 @@
     line-height: 29px;
     text-align: center;
     color: #000000;
-    margin: 0 0 106px;
+    margin: 0 0 123px;
 }
 
 .profile__form {
@@ -32,7 +32,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 17px 0 0;
+    margin: 0;
     border-bottom: 1px solid #e8e8e8;
 }
 
@@ -61,12 +61,25 @@
     margin: 0 0 16px;
 }
 
-.profile__input:focus{
+.profile__input:focus {
     outline: none;
 }
 
-.profile__edit-button{
-    margin: 204px 0 16px;
+.profile__input-error {
+    color: #EE3465;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    margin: 2px 3px;
+    max-width: 358px;
+    display: block;
+    min-height: 12px;
+}
+
+.profile__edit-button {
+    margin: 187px 0 16px;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
@@ -78,12 +91,34 @@
     border: none;
 }
 
-.profile__edit-button_disabled {
+.profile__edit-button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.profile__save-button {
+    margin: 187px 0 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #FFFFFF;
+    background: #3456F3;
+    padding: 13px 15px;
+    border-radius: 3px;
+    border: none;
+}
+
+.profile__save-button:disabled {
+    color: #C2C2C2;
+    background: #F8F8F8;
     opacity: 0.65;
     pointer-events: none;
 }
 
-.profile__edit-button:hover{
+.profile__save-button:hover {
     opacity: 0.6;
     cursor: pointer;
 }
@@ -101,7 +136,7 @@
     text-decoration: none;
 }
 
-.profile__logout:hover{
+.profile__logout:hover {
     opacity: 0.6;
     cursor: pointer;
 }
@@ -115,28 +150,38 @@
         margin: 0 0 79px;
     }
 
-    .profile__edit-button{
-        margin: 194px 0 16px;
+    .profile__edit-button {
+        margin: 177px 0 16px;
+    }
+
+    .profile__save-button {
+        margin: 177px 0 0;
     }
 }
 
-@media screen and (max-width: 550px){
+@media screen and (max-width: 550px) {
     .profile {
         margin: 74px 0 0;
     }
 
-    .profile__container{
+    .profile__container {
         width: 260px;
     }
 
     .profile__title {
-        margin: 0 0 106px;
+        margin: 0 0 123px;
     }
 
-    .profile__edit-button{
-        margin: 363px 0 16px;
+    .profile__edit-button {
+        margin: 346px 0 16px;
         font-size: 12px;
         line-height: 15px;
+    }
+
+    .profile__save-button {
+        margin: 346px 0 0;
+        font-size: 13px;
+        line-height: 16px;
     }
 
     .profile__logout {

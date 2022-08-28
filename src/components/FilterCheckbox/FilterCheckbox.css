@@ -3,6 +3,10 @@
     margin: 30px auto 39px;
     display: flex;
 }
+
+.filter:hover {
+    cursor: pointer;
+}
   
 .filter__input {
     display: flex;
@@ -21,9 +25,9 @@
     width: 16px;
     height: 16px;
     top: 2px;
-    left: 18px;
+    right: 18px;
     position: absolute;
-    background-color: #2BE080;
+    background-color: #E8E8E8;
     border-radius: 50%;
 }
   
@@ -32,8 +36,8 @@
 }
   
 .filter__input:checked::before {
-    left: 2px;
-    background-color: #E8E8E8;
+    right: 2px;
+    background-color: #2BE080;
 }
   
 .filter__name {
@@ -47,9 +51,9 @@
     color: #000000;
 }
   
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 425px) {
     .filter {
-        margin: 44px auto 43px;
+        margin-bottom: 45px;
     }
 
     .filter__name {

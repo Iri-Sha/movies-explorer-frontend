@@ -1,31 +1,62 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Profile.css';
-import InfoToolTip from '../InfoToolTip/InfoToolTip';
+import useFormWithValidation from '../Validation/Validation';
 
-function Profile() {
+function Profile({
+    currentUser,
+    handleProfileUpdate,
+    onLogout,
+    handleEdit,
+    isActiveForUpdate,
+    setIsActiveForUpdate,
+    }) {
 
-    const userName = "Виталий";
-    const userEmail = "pochta@yandex.ru"
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const {
+        values, handleChange, errors, isValid, resetForm,
+    } = useFormWithValidation(currentUser);
 
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-    const history = useHistory();
+    const isButtonDisabled =
+    !isValid ||
+    (values.name === currentUser.name &&
+      values.email === currentUser.email);
 
-    function handleSubmit(e) {
+    function handleChangeProfile(evt) {
+        handleChange(evt);
+        if(evt.target.name === "name") {
+          setName(evt.target.value);
+        } else {
+          setEmail(evt.target.value);
+        }
+    }
+
+    const handleEditProfile = (e) => {
         e.preventDefault();
-        setIsInfoTooltipOpen(true);
+        handleEdit();
+    };
+
+    function handleSubmit(e){
+        e.preventDefault();
+        handleProfileUpdate(name, email);
+        resetForm();
     }
 
-    function handleClose() {
-        setIsInfoTooltipOpen(false);
-        history('/profile');
-    }
+    React.useEffect(() => {
+        setName(currentUser.name);
+        setEmail(currentUser.email);
+    }, [currentUser]);
+
+    React.useEffect(() => {
+        setIsActiveForUpdate(false);
+    }, [setIsActiveForUpdate]);
 
     return (
         <section className="profile">
             <div className="profile__container">
-                <h1 className="profile__title">Привет, {userName}!</h1>
-                <form className="profile__form" onSubmit={handleSubmit}>
+                <h1 className="profile__title">Привет, {currentUser.name}!</h1>
+                <form className="profile__form" onSubmit={handleSubmit} noValidate>
                     <div className="profile__input-container">
                         <label className="profile__lable">Имя</label>
                         <input
@@ -35,9 +66,12 @@ function Profile() {
                             minLength="2"
                             maxLength="50"
                             required
-                            value={userName || ''}
+                            disabled={!isActiveForUpdate}
+                            value={name || ''}
+                            onChange={handleChangeProfile}
                         />
                     </div>
+                    <span className="profile__input-error">{errors.name}</span>
                     <div className="profile__input-container">
                         <label className="profile__lable">E-mail</label>
                         <input
@@ -47,22 +81,35 @@ function Profile() {
                             minLength="2"
                             maxLength="254"
                             required
-                            value={userEmail || ''}
+                            disabled={!isActiveForUpdate}
+                            value={email || ''}
+                            onChange={handleChangeProfile}
                         />
                     </div>
-                    <button type="submit"
-                            className="profile__edit-button profile__edit-button_disabled">
-                        Редактировать
-                    </button>
+                    <span className="profile__input-error">{errors.email}</span>
+                    {!isActiveForUpdate ? (
+                        <button
+                            className="profile__edit-button"
+                            onClick={handleEditProfile}
+                        >
+                            Редактировать
+                        </button>
+                    ) : (
+                        <button
+                            type="submit"
+                            disabled={isButtonDisabled}
+                            className="profile__save-button"
+                        >
+                            Сохранить
+                        </button>
+                    )}
                 </form>
-                <Link to="/signin" className="profile__logout">
-                    Выйти из аккаунта
-                </Link>
+                {!isActiveForUpdate && (
+                    <Link to="/signin" className="profile__logout" onClick={onLogout}>
+                        Выйти из аккаунта
+                    </Link>
+                )}
             </div>
-            <InfoToolTip
-                status={true}
-                isOpen={isInfoTooltipOpen}
-                closePopup={handleClose}/>
         </section>
     );
 };

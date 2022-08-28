@@ -3,56 +3,47 @@ import './MoviesCardList.css';
 import Preloader from '../Preloader/Preloader';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({movies, savedmovies, isMoreButton, isSaved}) {
-
-    const [isLoading, setLoading] = React.useState(false);
-
-    function handlePreloader() {
-        setLoading(true);
-    }
+function MoviesCardList({
+    movies,
+    savedMovies,
+    isMoreButton,
+    isLoading,
+    handleMoreButtonClick,
+    handleSaveMovie,
+    handleDeleteMovie,
+    }) {
 
     return (
         <section className="movies-card-list">
-        {isLoading ? (
-            <Preloader />
-        ) : (
-            <>
-            <div className="movies-card-list__conteiner">
-            {isSaved ? (
-                <>
-                {savedmovies.map((savedmovie) => {
-                    return (
-                    <MoviesCard
-                        key={savedmovie.toString()}
-                        image={savedmovie}
-                        nameRU="33 слова о дизайне"
-                        duration="107"
-                    />
-                    )})
-                }
-                </>
+            {isLoading ? (
+                <Preloader />
             ) : (
-                <>
-                {movies.map((movie) => {
-                    return (
-                    <MoviesCard
-                        key={movie.toString()}
-                        image={movie}
-                        nameRU="33 слова о дизайне"
-                        duration="107"
-                    />
-                    )})
-                }
-                </>
+            <>
+            <p className={movies.length === 0? ("not-found") : ("not-found_hidden")}>
+                Ничего не найдено
+            </p>
+            {movies.length !== 0 ? (
+                <div className="movies-card-list__conteiner">
+                    {movies.map((movie)=>(
+                        <MoviesCard
+                            movie={movie}
+                            key={movie.id || movie._id}
+                            handleSaveMovie={handleSaveMovie}
+                            handleDeleteMovie={handleDeleteMovie}
+                            savedMovies={savedMovies}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <div className="movies-card-list__conteiner"></div>
             )}
-            </div>
             {isMoreButton ? (
-                <button className="more-button" onClick={handlePreloader}>Ёще</button>
+                 <button className="more-button" onClick={handleMoreButtonClick}>Ёще</button>
             ) : (
                 <div className="more-button_disable"></div>
             )}
             </>
-        )}
+            )}
         </section>
         
     );

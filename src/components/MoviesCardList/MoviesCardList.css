@@ -37,6 +37,18 @@
     cursor: pointer;
 }
 
+.not-found {
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0;
+    text-align: center;
+    display: block;
+}
+
+.not-found_hidden {
+    display: none;
+}
+
 @media screen and (max-width: 800px){
     .movies-card-list{
         padding: 70px 30px 0;

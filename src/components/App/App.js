@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { useMediaPredicate } from 'react-media-hook';
+import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -11,87 +10,287 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
-import image1 from '../../images/movies/movie-card-1.jpg';
-import image2 from '../../images/movies/movie-card-2.jpg';
-import image3 from '../../images/movies/movie-card-3.jpg';
-import image4 from '../../images/movies/movie-card-4.jpg';
-import image5 from '../../images/movies/movie-card-5.jpg';
-import image6 from '../../images/movies/movie-card-6.jpg';
-import image7 from '../../images/movies/movie-card-7.jpg';
-import image8 from '../../images/movies/movie-card-8.jpg';
-import image9 from '../../images/movies/movie-card-9.jpg';
-import image10 from '../../images/movies/movie-card-10.jpg';
-import image11 from '../../images/movies/movie-card-11.jpg';
-import image12 from '../../images/movies/movie-card-12.jpg';
+import InfoToolTip from '../InfoToolTip/InfoToolTip';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { mainApi } from '../../utils/MainApi';
+import { moviesApi } from '../../utils/MoviesApi';
+import { errorText, errorTextConflict, errorLogin, errorTextProfile } from "../../utils/constants";
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(undefined);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [status, setStatus] = React.useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const history = useHistory();
+  const [isActiveForUpdate, setIsActiveForUpdate] = React.useState(false);
+  const [formError, setFormError] = React.useState('');
 
-  const loggedIn = true;
-  const isMoreButton = true;
-  const isSaved = true;
+  const [allMovies, setAllMovies] = React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const movies = [
-    image1,
-    image2,
-    image3,
-    image4,
-    image5,
-    image6,
-    image7,
-    image8,
-    image9,
-    image10,
-    image11,
-    image12,
-  ];
+  React.useEffect(() => {
+    tokenCheck();
+  }, []);
 
-  const savedmovies = movies.slice(0, 3);
+  function tokenCheck() {
+    if(localStorage.getItem('jwt') !== null) {
+      const token = localStorage.getItem('jwt');
+      if (token) {
+        mainApi.getUser()
+          .then((res) => {
+            setCurrentUser(res);
+            setLoggedIn(true);
+          })
+          .catch((err) => {
+            setLoggedIn(false);
+            setCurrentUser({});
+            setSavedMovies([]);
+            setAllMovies([]);
+            localStorage.clear();
+            console.log(err);
+        });
+      }
+    }
+  }
 
-  const isMobile = useMediaPredicate("(max-width: 520px)");
-  const isDesktop = useMediaPredicate("(max-width: 1020px)");
+//Подгружаем все фильмы в localStorage
+  function getMovies() {
+    moviesApi.getMovies()
+      .then((movies) => {
+        setAllMovies(movies);
+        localStorage.setItem('movies', JSON.stringify(movies));
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(err.message);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      });
+  };
 
-  const startmovies = (
-    isMobile ?
-      movies.slice(0, 5)
-    : isDesktop ?
-        movies.slice(0, 8)
-      : movies.slice(0, 12)
-)
+  React.useEffect(() => {
+    const localMovies = localStorage.getItem('movies');
+
+    if (localMovies) {
+      try {
+        setAllMovies(JSON.parse(localMovies));
+      } catch (err) {
+        localStorage.removeItem('movies');
+        getMovies();
+      }
+    } else {
+      getMovies();
+    }
+  }, []);
+
+  //Подгружаем сохраненные фильмы
+  function getSavedMovies() {
+    mainApi.getMovies()
+      .then((movies) => {
+        setSavedMovies(movies);
+        localStorage.setItem('saved-movies', JSON.stringify(movies));
+        console.log(movies);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(errorText);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      });
+  };
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      getSavedMovies();
+    }
+  }, [loggedIn]);
+
+//Сохранение фильмов
+  function handleSaveMovie(movie) {
+    mainApi.saveMovie(movie)
+      .then((movie) => {
+        setSavedMovies([movie, ...savedMovies]);
+        localStorage.setItem('saved-movies', JSON.stringify(movie));
+        console.log('Добавили видео в сохраненные');
+      })
+      .catch((err) => {
+        setErrorMessage(errorText);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      });
+  }
+
+//Удаление фильмов из сохраненных
+  function handleDeleteMovie(e, movie) {
+    e.preventDefault();
+    mainApi.deleteMovie(movie._id)
+      .then(() => {
+        setSavedMovies((state) => state.filter((c) => c._id !== movie._id));
+        localStorage.setItem('saved-movies', JSON.stringify(movie));
+        console.log('Удалили видео');
+      })
+      .catch((err) => {
+        setErrorMessage(errorText);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      });
+  };
+
+  function handleRegisterSubmit(name, email, password) {
+    return mainApi.registration(name, email, password)
+      .then(() => {
+        handleLoginSubmit(email, password);
+      })
+      .catch((err) => {
+        if(err === 'Ошибка: 409') {
+          return setFormError(errorTextConflict);
+        }
+        setFormError(errorText);
+      })
+  }
+
+  function handleLoginSubmit(email, password) {
+    mainApi.authorization(email, password)
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem('jwt', res.token);
+          setCurrentUser(res);
+          setLoggedIn(true);
+          history.push('/movies')
+        }
+      })
+      .catch((err) => {
+        setFormError(errorLogin);
+        console.log(err);
+      })
+  }
+
+  function handleUpdateProfile(name, email) {
+    mainApi.editProfile(name, email)
+      .then((res) => {
+        setCurrentUser(res);
+        setStatus(true);
+        setIsInfoTooltipOpen(true);
+        setIsActiveForUpdate(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      })
+  }
+
+  const onProfileEdit = () => {
+    setIsActiveForUpdate(true);
+  };
+
+  function handleLogout() {
+    mainApi.logout()
+      .then(() => {
+        setLoggedIn(false);
+        setCurrentUser({});
+        setSavedMovies([]);
+        setAllMovies([]);
+        history.push("/");
+        localStorage.clear()
+        console.log("Выход");
+      })
+      .catch((err) => console.log(err))
+  }
+
+  function handleClose() {
+    setIsInfoTooltipOpen(false);
+  }
+
+  function handleOverlayClose(e){
+    if(e.target.classList.contains('popup')){
+      handleClose();
+    }
+  }
+
+  React.useEffect(() => {
+    function handleEscapeKey(e) {
+      if (e.key === 'Escape') {
+      handleClose();
+      }
+    }
+
+    document.addEventListener('keydown', handleEscapeKey)
+    return () => document.removeEventListener('keydown', handleEscapeKey)
+  });
 
   return (
-    <div className="App">
-      <Switch>
-        <Route exact path='/'>
-          <Header loggedIn={loggedIn} />
-          <Main />
-          <Footer />
-        </Route>
-        <Route exact path='/movies'>
-          <Header loggedIn={loggedIn} />
-          <Movies movies={startmovies} isMoreButton={isMoreButton} />
-          <Footer />
-        </Route>
-        <Route exact path='/saved-movies'>
-          <Header loggedIn={loggedIn} />
-          <SavedMovies savedmovies={savedmovies} isSaved={isSaved} />
-          <Footer />
-        </Route>
-        <Route exact path='/profile'>
-          <Header loggedIn={loggedIn} />
-          <Profile />
-        </Route>
-        <Route exact path='/signin'>
-          <Login />
-        </Route>
-        <Route exact path='/signup'>
-          <Register  />
-        </Route>
-        <Route exact path='*'>
-          <NotFound/>
-        </Route>
-      </Switch>
-      
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="App">
+        <Switch>
+          <Route path='/signin'>
+          {loggedIn
+            ? (<Redirect to='/' />)
+            : (<Login handleLoginSubmit={handleLoginSubmit} formError={formError} />)
+          }
+          </Route>
+
+          <Route path='/signup'>
+            {loggedIn
+              ? (<Redirect to='/' />)
+              : (<Register handleRegisterSubmit={handleRegisterSubmit} formError={formError} />)
+            }
+          </Route>
+
+          <Route exact path='/'>
+            <Header loggedIn={loggedIn} />
+            <Main />
+            <Footer />
+          </Route>
+
+          <ProtectedRoute path='/movies' loggedIn={loggedIn}>
+            <Header loggedIn={loggedIn} />
+            <Movies
+              allMovies={allMovies}
+              savedMovies={savedMovies}
+              handleSaveMovie={handleSaveMovie}
+              handleDeleteMovie={handleDeleteMovie}
+            />
+            <Footer />
+          </ProtectedRoute>
+
+          <ProtectedRoute path='/saved-movies' loggedIn={loggedIn} >
+            <Header loggedIn={loggedIn} />
+            <SavedMovies
+              savedMovies={savedMovies}
+              getSavedMovies={getSavedMovies}
+              handleDeleteMovie={handleDeleteMovie}
+            />
+            <Footer />
+          </ProtectedRoute>
+
+          <ProtectedRoute path='/profile' loggedIn={loggedIn}>
+            <Header loggedIn={loggedIn}/>
+            <Profile 
+              currentUser={currentUser}
+              handleProfileUpdate={handleUpdateProfile}
+              onLogout={handleLogout}
+              handleEdit={onProfileEdit}
+              isActiveForUpdate={isActiveForUpdate}
+              setIsActiveForUpdate={setIsActiveForUpdate}
+              errorMessage={errorTextProfile}
+            />
+          </ProtectedRoute>
+          <Route exact path='*'>
+            <NotFound/>
+          </Route>
+        </Switch>
+        <InfoToolTip
+                status={status}
+                isOpen={isInfoTooltipOpen}
+                closePopup={handleClose}
+                handleOverlayClose={handleOverlayClose}
+                errorMessage={errorMessage}
+          />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

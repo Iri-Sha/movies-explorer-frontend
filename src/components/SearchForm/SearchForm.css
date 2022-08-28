@@ -51,6 +51,20 @@
     cursor: pointer;
 }
 
+.error-message {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 13px;
+    color: #ff004c;
+    text-align: center;
+    height: 13px;
+    opacity: 0;
+}
+
+.error-message_visible {
+    opacity: 1;
+}
+
 @media screen and (max-width: 1020px){
     .search-form{
         padding: 80px 30px 10px;
