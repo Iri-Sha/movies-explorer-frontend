@@ -10,13 +10,19 @@ function SearchForm({
     }) {
 
     const [query, setQuery] = React.useState(initialSearchQueryValues);
+    const [isValid, setIsValid] = React.useState(true);
+
     function handleQueryChange(e){
         setQuery(e.target.value);
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        onSearch(query);
+        if  (query === '') {
+            return setIsValid(false);
+        }
+            setIsValid(true);      
+            onSearch(query);
     }
 
     return (
@@ -40,10 +46,9 @@ function SearchForm({
                     onChange={onCheckClick}
                 />
             </form>
+            <span className={!isValid ? "search__input-error" : ""}>Нужно ввести ключевое слово</span>
         </section>  
     );
 };
   
 export default SearchForm;
-
-//            <span className={`error-message ${controls.errors.nameRU ? "error-message_visible" : ""}`}>{controls.errors.nameRU}</span>

@@ -56,7 +56,7 @@
         background-color: #FAFAFA;
         padding: 79px 30px 20px;
     }
-  }
+}
   
   @media screen and (max-width: 520px) {
     .footer {
@@ -86,9 +86,9 @@
     }
   
     .footer__copyright {
-      text-align: center;
-      font-size: 12px;
-      line-height: 15px;
-      color: #A0A0A0;
+        text-align: center;
+        font-size: 12px;
+        line-height: 15px;
+        color: #A0A0A0;
     }
-  }
+}

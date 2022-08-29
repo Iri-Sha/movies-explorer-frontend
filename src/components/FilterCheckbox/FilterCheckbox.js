@@ -2,7 +2,6 @@ import React from 'react';
 import './FilterCheckbox.css';
 
 function FilterCheckbox({
-    handleShortFilmsSearch,
     checked,
     onChange
     }) {
@@ -14,7 +13,6 @@ function FilterCheckbox({
                 type="checkbox"
                 checked={checked}
                 onChange={onChange}
-                onInput={handleShortFilmsSearch}
             />
             <label className="filter__name">Короткометражки</label>
         </div>

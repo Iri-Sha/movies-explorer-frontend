@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.css';
-import useFormWithValidation from '../Validation/Validation';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 function Profile({
     currentUser,

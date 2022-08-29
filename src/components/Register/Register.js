@@ -1,7 +1,7 @@
 import React from 'react';
 import './Register.css';
 import Form from '../Form/Form';
-import useFormWithValidation from '../Validation/Validation';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 function Register({handleRegisterSubmit, formError}) {
 
@@ -16,7 +16,8 @@ function Register({handleRegisterSubmit, formError}) {
     }
 
     return (
-        <Form title={"Добро пожаловать!"}
+        <Form
+            title={"Добро пожаловать!"}
             inputs={
                 <div className="register__inputs">
                     <label className="register__label">Имя</label>
@@ -65,8 +66,8 @@ function Register({handleRegisterSubmit, formError}) {
             button={"Зарегистрироваться"}
             span={"Уже зарегистрированы?"}
             isRegister={true}
-            onSubmit = {handleSubmit}
             isValid={isValid}
+            onSubmit = {handleSubmit}
             formError={formError}
         />
     );

@@ -1,6 +1,6 @@
 import React from "react";
 import validator from "validator";
-import { regex } from "../../utils/constants";
+import { regex } from "../utils/constants";
 
 export  default function useFormWithValidation() {
     const [values, setValues] = React.useState({});
@@ -11,10 +11,9 @@ export  default function useFormWithValidation() {
         const target = event.target;
         const name = target.name;
         const value = target.value;
-        const checked = target.value;
         setValues({
           ...values,
-          [name]: event.target.type === "checkbox" ? checked : value});
+          [name]: event.target.type === value});
         setErrors({...errors, [name]: target.validationMessage });
         setIsValid(target.closest("form").checkValidity());
 
@@ -42,19 +41,6 @@ export  default function useFormWithValidation() {
           
     };
 
-    const updateErrorMessage = (e, name, message) => {
-      setErrors({ ...errors, [name]: message });
-    };
-
-    const checkValidity = (e) => {
-      e.preventDefault();
-      const err = {};
-      e.target.querySelectorAll("input").forEach((input) => {
-        err[input.name] = input.validationMessage;
-        setErrors(err);
-      });
-    };
-  
     const resetForm = React.useCallback(
         (newValues = {}, newErrors = {}, newIsValid = false) => {
             setValues(newValues);
@@ -64,5 +50,5 @@ export  default function useFormWithValidation() {
         [setValues, setErrors, setIsValid]
     );
   
-    return { values, handleChange, errors, isValid, resetForm, updateErrorMessage, checkValidity };
+    return { values, handleChange, errors, isValid, resetForm };
   }

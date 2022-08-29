@@ -82,9 +82,9 @@
         font-size: 12px;
         line-height: 15px;
     }
-  }
+}
   
-  @media screen and (max-width: 420px) {
+@media screen and (max-width: 420px) {
     .techs {
         padding: 70px 18px;
         background: #FAFAFA;
@@ -114,4 +114,4 @@
         grid-gap: 10px;
         justify-content: center;
     }
-  }
+}

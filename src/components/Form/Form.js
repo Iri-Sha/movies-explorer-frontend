@@ -3,7 +3,16 @@ import { Link } from 'react-router-dom';
 import './Form.css';
 import logo from '../../images/logo.svg';
 
-function Form({ title, inputs, button, span, isRegister, isValid, onSubmit, formError }) {
+function Form({
+  title,
+  inputs,
+  button,
+  span,
+  isRegister,
+  isValid,
+  onSubmit,
+  formError
+  }) {
 
   return(
     <section className="form__container">

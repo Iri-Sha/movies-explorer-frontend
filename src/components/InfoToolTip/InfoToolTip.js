@@ -3,7 +3,7 @@ import ImageOk from '../../images/ImageOk.svg';
 import ImageError from '../../images/ImageError.svg';
 import './InfoToolTip.css';
 
-function InfoToolTip({isOpen, closePopup, status, handleOverlayClose, errorMessage}) {
+function InfoToolTip({status, isOpen, closePopup, handleOverlayClose, errorMessage}) {
 
     return(
         <section className={`popup ${isOpen ? 'popup_opened' : ''}`} onClick={handleOverlayClose}>

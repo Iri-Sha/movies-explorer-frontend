@@ -11,8 +11,8 @@ function Movies({
     handleDeleteMovie,
     }) {
     
-    const isPad = useMediaPredicate("(min-width: 520px)");
-    const isDesktop = useMediaPredicate("(min-width: 1100px)");
+    const isMobile = useMediaPredicate("(max-width: 520px)");
+    const isPad = useMediaPredicate("(max-width: 1100px)");
     const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query") || "";
     const [countMovies, setCountMovies] = React.useState(startMovies());
@@ -27,22 +27,23 @@ function Movies({
         return string !== "false";
     }
 
-
-    function startMovies() {
-        if (isDesktop) {
-            return 12;
+    function startMovies(isMobile, isPad) {
+        if (isMobile) {
+            return 5;
         }
         if (isPad) {
             return 8;
         }
-        return 5;
+        return 12;
     }
 
     function handleAddMovies() {
-        if (isDesktop) {
-        setCountMovies((prevCount) => prevCount + 3)
+        if (isMobile) {
+            setCountMovies((prevCount) => prevCount + 2)
+        } if (isPad) {
+            setCountMovies((prevCount) => prevCount + 2)
         }
-        setCountMovies((prevCount) => prevCount + 2)
+            setCountMovies((prevCount) => prevCount + 3)
     }
 
     function getRenderMovies(movies) {
@@ -60,11 +61,6 @@ function Movies({
             }
         }, 150);
     }
-
-    React.useEffect(() => {
-        setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
-        renderMovies();
-    }, [allMovies])
 
     function handleSearch(query) {
         setIsLoading(true);
@@ -102,8 +98,10 @@ function Movies({
     }
 
     React.useEffect(() => {
+        setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
         renderMovies();
-    }, [countMovies, isShort, filteredMovies, filteredShortMovies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [countMovies, isShort, filteredMovies, filteredShortMovies, allMovies])
 
     React.useEffect(()=>{
         if(localStorage.getItem("query") !== "" ){
@@ -112,6 +110,7 @@ function Movies({
         else{
             renderMovies();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -121,7 +120,6 @@ function Movies({
                 checked={isShort}
                 onCheckClick={handleShortClick}
                 initialSearchQueryValues={initialSearchQueryValues}
-                searchWordRequiered
             />
             <MoviesCardList
                 movies={moviesToRender}

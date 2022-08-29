@@ -5,7 +5,6 @@ import {shortMovieDuration} from "../../utils/constants";
 
 function SavedMovies({savedMovies, handleDeleteMovie}) {
 
-    //const initialSearchQueryValues = localStorage.getItem("saved-movies");
     const [isLoading, setIsLoading] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -71,7 +70,8 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
     React.useEffect(() => {
         setShortMovies(savedMovies.filter((movie) => movie.duration <= shortMovieDuration));
         renderMovies();
-    }, [isShort, filteredMovies, filteredShortMovies, moviesToRender]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isShort, filteredMovies, filteredShortMovies, moviesToRender, savedMovies]);
 
     return (
         <section>
@@ -79,12 +79,10 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
                 onSearch={handleSearch}
                 checked={isShort}
                 onCheckClick={handleShortClick}
-                //initialSearchQueryValues={initialSearchQueryValues}
             />
             <MoviesCardList
                 movies={moviesToRender}
                 isLoading={isLoading}
-                isSaved={true}
                 handleDeleteMovie={handleClick}
                 savedMovies={savedMovies}
             />

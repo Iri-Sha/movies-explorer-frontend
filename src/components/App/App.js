@@ -15,14 +15,14 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { mainApi } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi';
-import { errorText, errorTextConflict, errorLogin, errorTextProfile } from "../../utils/constants";
+import { errorText, errorTextConflict, errorLogin } from "../../utils/constants";
 
 function App() {
+  const history = useHistory();
   const [loggedIn, setLoggedIn] = React.useState(undefined);
   const [currentUser, setCurrentUser] = React.useState({});
   const [status, setStatus] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-  const history = useHistory();
   const [isActiveForUpdate, setIsActiveForUpdate] = React.useState(false);
   const [formError, setFormError] = React.useState('');
 
@@ -123,8 +123,7 @@ function App() {
   }
 
 //Удаление фильмов из сохраненных
-  function handleDeleteMovie(e, movie) {
-    e.preventDefault();
+  function handleDeleteMovie(movie) {
     mainApi.deleteMovie(movie._id)
       .then(() => {
         setSavedMovies((state) => state.filter((c) => c._id !== movie._id));
@@ -275,7 +274,6 @@ function App() {
               handleEdit={onProfileEdit}
               isActiveForUpdate={isActiveForUpdate}
               setIsActiveForUpdate={setIsActiveForUpdate}
-              errorMessage={errorTextProfile}
             />
           </ProtectedRoute>
           <Route exact path='*'>

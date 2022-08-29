@@ -1,7 +1,7 @@
 import React from 'react';
 import './Login.css';
 import Form from '../Form/Form';
-import useFormWithValidation from '../Validation/Validation';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 function Login({handleLoginSubmit, formError}) {
 
@@ -16,7 +16,8 @@ function Login({handleLoginSubmit, formError}) {
     }
 
     return (
-        <Form title={"Рады видеть!"}
+        <Form
+            title={"Рады видеть!"}
             inputs={
                 <div className="login__inputs">
                     <label className="login__label">E-mail</label>
@@ -51,8 +52,8 @@ function Login({handleLoginSubmit, formError}) {
             button={"Войти"}
             span={"Ещё не зарегистрированы?"}
             isRegister={false}
-            onSubmit = {handleSubmit}
             isValid={isValid}
+            onSubmit = {handleSubmit}
             formError={formError}
         />
     );

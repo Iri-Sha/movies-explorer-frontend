@@ -89,8 +89,7 @@ class MainApi {
 }
   
 export const mainApi = new MainApi({
-    baseUrl: 'https://api.shamiren.diplom.nomoredomains.xyz',
-    //baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3000'}`,
+    baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3000'}`,
     headers: {
     'Content-Type': 'application/json',
     },
