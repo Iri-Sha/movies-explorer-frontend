@@ -80,8 +80,8 @@ function App() {
         getMovies();
         getSavedMovies();
       }
-      getSavedMovies();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
   //Подгружаем сохраненные фильмы
@@ -99,6 +99,13 @@ function App() {
         setIsInfoTooltipOpen(true);
       });
   };
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      getSavedMovies();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn]);
 
 //Сохранение фильмов
   function handleSaveMovie(movie) {
