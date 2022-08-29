@@ -75,12 +75,12 @@ function App() {
         } catch (err) {
           localStorage.removeItem('movies');
           getMovies();
-          getSavedMovies();
         }
       } else {
         getMovies();
         getSavedMovies();
       }
+      getSavedMovies();
     }
   }, [loggedIn]);
 
