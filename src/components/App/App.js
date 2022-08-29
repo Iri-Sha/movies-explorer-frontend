@@ -88,7 +88,7 @@ function App() {
   function getSavedMovies() {
     mainApi.getMovies()
       .then((movies) => {
-        const moviesToShow = movies.data.filter((movie) => movie.owner === currentUser.id);
+        const moviesToShow = movies.filter((movie) => movie.owner === currentUser.id);
         setSavedMovies(moviesToShow);
         localStorage.setItem('saved-movies', JSON.stringify(moviesToShow));
       })
