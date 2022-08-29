@@ -40,13 +40,13 @@ function SearchForm({
                     />
                     <button className="search-form__button" type="submit">Найти</button>
                 </div>
+                <span className={!isValid ? "search__input-error" : "search__input-error_hidden"}>Нужно ввести ключевое слово</span>
                 <FilterCheckbox
                     name="shortFilms"
                     checked={checked}
                     onChange={onCheckClick}
                 />
             </form>
-            <span className={!isValid ? "search__input-error" : ""}>Нужно ввести ключевое слово</span>
         </section>  
     );
 };

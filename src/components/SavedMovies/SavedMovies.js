@@ -18,6 +18,7 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
         setFilteredShortMovies([]);
         setFilteredMovies([]);
         let filterSavedMovies = savedMovies;
+        console.log(savedMovies);
         if (query !== "" && query!==null) {
             filterSavedMovies = savedMovies.filter((movie) =>
                 movie.nameRU.toLowerCase().indexOf(query.toLowerCase()) > -1);

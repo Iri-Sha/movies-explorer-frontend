@@ -19,7 +19,7 @@ import { errorText, errorTextConflict, errorLogin } from "../../utils/constants"
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(undefined);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [status, setStatus] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
@@ -71,19 +71,23 @@ function App() {
   };
 
   React.useEffect(() => {
-    const localMovies = localStorage.getItem('movies');
+    if (loggedIn) {
+      const localMovies = localStorage.getItem('movies');
 
-    if (localMovies) {
-      try {
-        setAllMovies(JSON.parse(localMovies));
-      } catch (err) {
-        localStorage.removeItem('movies');
+      if (localMovies) {
+        try {
+          setAllMovies(JSON.parse(localMovies));
+        } catch (err) {
+          localStorage.removeItem('movies');
+          getMovies();
+          getSavedMovies();
+        }
+      } else {
         getMovies();
+        getSavedMovies();
       }
-    } else {
-      getMovies();
     }
-  }, []);
+  }, [loggedIn]);
 
   //Подгружаем сохраненные фильмы
   function getSavedMovies() {
@@ -91,7 +95,6 @@ function App() {
       .then((movies) => {
         setSavedMovies(movies);
         localStorage.setItem('saved-movies', JSON.stringify(movies));
-        console.log(movies);
       })
       .catch((err) => {
         console.log(err);
@@ -100,12 +103,6 @@ function App() {
         setIsInfoTooltipOpen(true);
       });
   };
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      getSavedMovies();
-    }
-  }, [loggedIn]);
 
 //Сохранение фильмов
   function handleSaveMovie(movie) {
