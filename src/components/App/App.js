@@ -19,7 +19,7 @@ import { errorText, errorTextConflict, errorLogin } from "../../utils/constants"
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(undefined);
+  const [loggedIn, setLoggedIn] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [status, setStatus] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
@@ -35,25 +35,19 @@ function App() {
   }, []);
 
   function tokenCheck() {
-    if(localStorage.getItem('jwt') !== null) {
-      const token = localStorage.getItem('jwt');
-      if (token) {
-        mainApi.getUser()
-          .then((res) => {
-            setCurrentUser(res);
-            setLoggedIn(true);
-          })
-          .catch((err) => {
-            setLoggedIn(false);
-            setCurrentUser({});
-            setSavedMovies([]);
-            setAllMovies([]);
-            localStorage.clear();
-            console.log(err);
-        });
-      }
-    }
-    setLoggedIn(false);
+    mainApi.getUser()
+      .then((res) => {
+        setCurrentUser(res);
+        setLoggedIn(true);
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+        setCurrentUser({});
+        setSavedMovies([]);
+        setAllMovies([]);
+        localStorage.clear();
+        console.log(err);
+    });
   }
 
 //Подгружаем все фильмы в localStorage
@@ -150,13 +144,10 @@ function App() {
 
   function handleLoginSubmit(email, password) {
     mainApi.authorization(email, password)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem('jwt', res.token);
-          setCurrentUser(res);
-          setLoggedIn(true);
-          history.push('/movies')
-        }
+      .then(() => {
+        tokenCheck()
+        setFormError("");
+        history.push('/movies')
       })
       .catch((err) => {
         setFormError(errorLogin);
