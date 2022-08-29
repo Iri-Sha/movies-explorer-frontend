@@ -36,11 +36,15 @@ function Movies({
         return 5;
     }
 
-    function handleAddMovies(width) {
+    function addMovies(width) {
         if (width >= 1100) {
-            setCountMovies((prevCount) => prevCount + 3)
+            return 3;
         }
-            setCountMovies((prevCount) => prevCount + 2)
+        return 2;
+    }
+
+    function handleAddMovies() {
+        setCountMovies((prevCount) => prevCount + addMovies(width))
     }
 
     function getRenderMovies(movies) {
