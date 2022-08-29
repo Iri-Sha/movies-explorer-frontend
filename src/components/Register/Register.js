@@ -1,7 +1,7 @@
 import React from 'react';
 import './Register.css';
 import Form from '../Form/Form';
-import useFormWithValidation from '../../hooks/useFormWithValidation';
+import useFormWithValidation from '../../hooks/useValidationForm';
 
 function Register({handleRegisterSubmit, formError}) {
 
