@@ -19,7 +19,7 @@ import { errorText, errorTextConflict, errorLogin } from "../../utils/constants"
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(undefined);
   const [currentUser, setCurrentUser] = React.useState({});
   const [status, setStatus] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
@@ -53,6 +53,7 @@ function App() {
         });
       }
     }
+    setLoggedIn(false);
   }
 
 //Подгружаем все фильмы в localStorage
