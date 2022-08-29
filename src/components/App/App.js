@@ -88,8 +88,9 @@ function App() {
   function getSavedMovies() {
     mainApi.getMovies()
       .then((movies) => {
-        setSavedMovies(movies);
-        localStorage.setItem('saved-movies', JSON.stringify(movies));
+        const moviesToShow = movies.data.filter((movie) => movie.owner === currentUser.id);
+        setSavedMovies(moviesToShow);
+        localStorage.setItem('saved-movies', JSON.stringify(moviesToShow));
       })
       .catch((err) => {
         console.log(err);
