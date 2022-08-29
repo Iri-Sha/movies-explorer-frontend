@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import { useMediaPredicate } from "react-media-hook";
+import useCurrentWidth from '../../hooks/usуCurrentWidth';
 import { shortMovieDuration } from "../../utils/constants";
 
 function Movies({
@@ -11,11 +11,10 @@ function Movies({
     handleDeleteMovie,
     }) {
     
-    const isMobile = useMediaPredicate("(max-width: 520px)");
-    const isPad = useMediaPredicate("(max-width: 1100px)");
+    const width = useCurrentWidth();
     const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query") || "";
-    const [countMovies, setCountMovies] = React.useState(startMovies());
+    const [countMovies, setCountMovies] = React.useState(startMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -27,23 +26,21 @@ function Movies({
         return string !== "false";
     }
 
-    function startMovies(isMobile, isPad) {
-        if (isMobile) {
-            return 5;
+    function startMovies(width) {
+        if (width >= 1100) {
+            return 12;
         }
-        if (isPad) {
+        if (width >= 520) {
             return 8;
         }
-        return 12;
+        return 5;
     }
 
-    function handleAddMovies() {
-        if (isMobile) {
-            setCountMovies((prevCount) => prevCount + 2)
-        } if (isPad) {
-            setCountMovies((prevCount) => prevCount + 2)
-        }
+    function handleAddMovies(width) {
+        if (width >= 1100) {
             setCountMovies((prevCount) => prevCount + 3)
+        }
+            setCountMovies((prevCount) => prevCount + 2)
     }
 
     function getRenderMovies(movies) {
