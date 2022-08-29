@@ -18,15 +18,15 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
         setFilteredShortMovies([]);
         setFilteredMovies([]);
         let filterSavedMovies = savedMovies;
-        console.log(savedMovies);
+        console.log(query);
         if (query !== "" && query!==null) {
             filterSavedMovies = savedMovies.filter((movie) =>
-                movie.nameRU.toLowerCase().indexOf(query.toLowerCase()) > -1);
-        }
+                movie.nameRU.toLowerCase().includes(query.toLowerCase()));
+        } console.log(query);
         setFilteredShortMovies(filterSavedMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterSavedMovies);
-        localStorage.setItem("query", query);
         setSavedMoviesQuery(query);
+        setIsLoading(false);
     }
 
     function handleShortClick() {

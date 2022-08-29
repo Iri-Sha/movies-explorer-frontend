@@ -72,6 +72,7 @@ function Movies({
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
+        setIsLoading(true);
     }
 
     function handleShortClick() {
