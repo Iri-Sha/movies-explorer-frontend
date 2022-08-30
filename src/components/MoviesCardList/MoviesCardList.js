@@ -11,6 +11,7 @@ function MoviesCardList({
     handleMoreButtonClick,
     handleSaveMovie,
     handleDeleteMovie,
+    isFirstSearch
     }) {
 
     return (
@@ -18,31 +19,30 @@ function MoviesCardList({
             {isLoading ? (
                 <Preloader />
             ) : (
-            <>
-            <p className={movies.length === 0? ("not-found") : ("not-found_hidden")}>
-                Ничего не найдено
-            </p>
-            {movies.length !== 0 ? (
-                <div className="movies-card-list__conteiner">
-                    {movies.map((movie)=>(
-                        <MoviesCard
-                            movie={movie}
-                            key={movie.id || movie._id}
-                            handleSaveMovie={handleSaveMovie}
-                            handleDeleteMovie={handleDeleteMovie}
-                            savedMovies={savedMovies}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <div className="movies-card-list__conteiner"></div>
-            )}
-            {isMoreButton ? (
-                 <button className="more-button" onClick={handleMoreButtonClick}>Ёще</button>
-            ) : (
-                <div className="more-button_disable"></div>
-            )}
-            </>
+                movies.length !== 0 ? (
+                    <>
+                    <div className="movies-card-list__conteiner">
+                        {movies.map((movie)=>(
+                            <MoviesCard
+                                movie={movie}
+                                key={movie.id || movie._id}
+                                handleSaveMovie={handleSaveMovie}
+                                handleDeleteMovie={handleDeleteMovie}
+                                savedMovies={savedMovies}
+                            />
+                        ))}
+                    </div>
+                    {isMoreButton ? (
+                        <button className="more-button" onClick={handleMoreButtonClick}>Ёще</button>
+                    ) : (
+                    <div className="more-button_disable"></div>
+                    )}
+                    </>
+                ) : (
+                    <div className="movies-card-list__conteiner">
+                        <p className={!isFirstSearch ? ("not-found") : ("not-found_hidden")}>Ничего не найдено</p>
+                    </div>
+                )
             )}
         </section>
         

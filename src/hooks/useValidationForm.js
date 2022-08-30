@@ -3,9 +3,11 @@ import validator from "validator";
 import { regex } from "../utils/constants";
 
 export  default function useFormWithValidation() {
-  const [values, setValues] = React.useState({});
+  const [values, setValues] = React.useState();
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
+
+  const updateValue = (name, value) => setValues((values) => ({ ...values, [name]: value }));
 
   const handleChange = (event) => {
     const target = event.target;
@@ -48,5 +50,5 @@ export  default function useFormWithValidation() {
     [setValues, setErrors, setIsValid]
   );
 
-  return { values, handleChange, errors, isValid, resetForm };
+  return { values, handleChange, errors, isValid, resetForm, updateValue };
 }

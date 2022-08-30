@@ -14,6 +14,7 @@ function Movies({
     
     const width = useCurrentWidth();
     const [isLoading, setIsLoading] = React.useState(false);
+    const [isFirstSearch, setIsFirstSearch] = React.useState(true);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : localStorage.getItem("isShort");
     const [countMovies, setCountMovies] = React.useState(startMovies(width));
@@ -68,6 +69,7 @@ function Movies({
 
     function handleSearch(query) {
         setIsLoading(true);
+        setIsFirstSearch(false);
         let filterMovies = allMovies;
         if (query !== "" && query!==null) {
             filterMovies = allMovies.filter((movie) =>
@@ -76,7 +78,7 @@ function Movies({
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
-        setIsLoading(true);
+        setIsLoading(false);
     }
 
     function handleShortClick() {
@@ -85,7 +87,7 @@ function Movies({
     }
 
     function renderMovies() {
-        setIsLoading(false);
+        setIsLoading(true);
         const query = localStorage.getItem("query");
         const emptyQuery = (query === "" || query === "null")
         if (isShort && !emptyQuery) {
@@ -134,6 +136,7 @@ function Movies({
                 handleMoreButtonClick={handleAddMovies}
                 handleSaveMovie={handleSaveMovie}
                 handleDeleteMovie={handleDeleteMovie}
+                isFirstSearch={isFirstSearch}
             />
         </section>
         
