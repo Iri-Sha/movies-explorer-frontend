@@ -15,7 +15,7 @@ function MoviesCardList({
 
     return (
         <section className="movies-card-list">
-            movies.length !== 0 ? (
+            {movies.length !== 0 ? (
                 <>
                 <div className="movies-card-list__conteiner">
                     {movies.map((movie)=>(
@@ -38,7 +38,7 @@ function MoviesCardList({
                 <div className="movies-card-list__conteiner">
                     <p className= "not-found">{resultText}</p>
                 </div>
-            )
+            )}
         </section>
         
     );
