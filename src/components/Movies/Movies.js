@@ -17,9 +17,6 @@ function Movies({
     const [isLoading, setIsLoading] = React.useState(false);
     const [isFirstSearch, setIsFirstSearch] = React.useState(true);
     const initialSearchQueryValues = localStorage.getItem("query");
-    const initialMovies = localStorage.getItem("MoviesToRender") ? 
-        JSON.parse(localStorage.getItem("MoviesToRender")) :
-        [];
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
     const [countMovies, setCountMovies] = React.useState(startMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
@@ -27,7 +24,7 @@ function Movies({
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(initialIsShort);
-    const [moviesToRender, setMoviesToRender] = React.useState(initialMovies);
+    const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     const resultText = (isFirstSearch && localStorage.getItem("query") === null) ? (
         ""
@@ -69,7 +66,6 @@ function Movies({
             result.push(movies[i]);
         }
         setMoviesToRender(result);
-        localStorage.setItem("MoviesToRender", JSON.stringify(movies));
 
         setTimeout(() => {
             if (movies.length > countMovies) {
