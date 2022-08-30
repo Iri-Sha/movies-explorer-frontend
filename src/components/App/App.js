@@ -55,7 +55,6 @@ function App() {
     moviesApi.getMovies()
       .then((movies) => {
         setAllMovies(movies);
-        localStorage.setItem('movies', JSON.stringify(movies));
       })
       .catch((err) => {
         console.log(err);
@@ -65,30 +64,11 @@ function App() {
       });
   };
 
-  React.useEffect(() => {
-    if (loggedIn) {
-      const localMovies = localStorage.getItem('movies');
-
-      if (localMovies) {
-        try {
-          setAllMovies(JSON.parse(localMovies));
-        } catch (err) {
-          localStorage.removeItem('movies');
-          getMovies();
-        }
-      } else {
-        getMovies();
-        getSavedMovies();
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
-
   //Подгружаем сохраненные фильмы
   function getSavedMovies() {
     mainApi.getMovies()
       .then((movies) => {
-        const moviesToShow = movies.filter((movie) => movie.owner === currentUser.id);
+        const moviesToShow = movies.filter((movie) => movie.owner === currentUser._id);
         setSavedMovies(moviesToShow);
         localStorage.setItem('saved-movies', JSON.stringify(moviesToShow));
       })
@@ -223,14 +203,14 @@ function App() {
         <Switch>
           <Route path='/signin'>
           {loggedIn
-            ? (<Redirect to='/' />)
+            ? (<Redirect to='/movies' />)
             : (<Login handleLoginSubmit={handleLoginSubmit} formError={formError} />)
           }
           </Route>
 
           <Route path='/signup'>
             {loggedIn
-              ? (<Redirect to='/' />)
+              ? (<Redirect to='/movies' />)
               : (<Register handleRegisterSubmit={handleRegisterSubmit} formError={formError} />)
             }
           </Route>
@@ -248,6 +228,7 @@ function App() {
               savedMovies={savedMovies}
               handleSaveMovie={handleSaveMovie}
               handleDeleteMovie={handleDeleteMovie}
+              getMovies={getMovies}
             />
             <Footer />
           </ProtectedRoute>

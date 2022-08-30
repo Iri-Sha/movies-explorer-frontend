@@ -9,6 +9,7 @@ function Movies({
     savedMovies,
     handleSaveMovie,
     handleDeleteMovie,
+    getMovies
     }) {
     
     const width = useCurrentWidth();
@@ -21,6 +22,11 @@ function Movies({
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(stringToBool(localStorage.getItem('isShort')));
     const [moviesToRender, setMoviesToRender] = React.useState([]);
+
+    React.useEffect(() => {
+        getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     function stringToBool(string) {
         return string !== "false";
