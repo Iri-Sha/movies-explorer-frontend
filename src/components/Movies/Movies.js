@@ -26,9 +26,7 @@ function Movies({
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     React.useEffect(() => {
-        setIsLoading(true);
         getMovies();
-        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -54,6 +52,8 @@ function Movies({
     }
 
     function getRenderMovies(movies) {
+        setIsLoading(true);
+
         const result = [];
         for (let i = 0; i < countMovies && i < movies.length; i = i + 1) {
             result.push(movies[i]);
@@ -67,6 +67,7 @@ function Movies({
                 setIsMoreButton(false);
             }
         }, 150);
+        setIsLoading(false);
     }
 
     function handleSearch(query) {
