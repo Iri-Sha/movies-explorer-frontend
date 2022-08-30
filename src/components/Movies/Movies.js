@@ -25,6 +25,12 @@ function Movies({
     const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
+    const resultText = (isFirstSearch && localStorage.getItem("query") === null) ? (
+        "Для поиска укажите ключевое слово"
+    ) : (
+        "По вашему запросу ничего не найдено"
+    );
+
     React.useEffect(() => {
         getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,7 +144,7 @@ function Movies({
                 handleMoreButtonClick={handleAddMovies}
                 handleSaveMovie={handleSaveMovie}
                 handleDeleteMovie={handleDeleteMovie}
-                isFirstSearch={isFirstSearch}
+                resultText={resultText}
             />
         </section>
         

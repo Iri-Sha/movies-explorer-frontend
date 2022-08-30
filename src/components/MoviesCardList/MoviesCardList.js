@@ -11,7 +11,7 @@ function MoviesCardList({
     handleMoreButtonClick,
     handleSaveMovie,
     handleDeleteMovie,
-    isFirstSearch
+    resultText
     }) {
 
     return (
@@ -40,7 +40,7 @@ function MoviesCardList({
                     </>
                 ) : (
                     <div className="movies-card-list__conteiner">
-                        <p className={!isFirstSearch ? ("not-found") : ("not-found_hidden")}>Ничего не найдено</p>
+                        <p className= "not-found">resultText</p>
                     </div>
                 )
             )}

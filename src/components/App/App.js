@@ -135,7 +135,6 @@ function App() {
       .then(() => {
         tokenCheck()
         setFormError("");
-        history.push('/movies')
       })
       .catch((err) => {
         setFormError(errorLogin);
@@ -202,17 +201,19 @@ function App() {
       <div className="App">
         <Switch>
           <Route path='/signin'>
-          {loggedIn
-            ? (<Redirect to='/movies' />)
-            : (<Login handleLoginSubmit={handleLoginSubmit} formError={formError} />)
-          }
+            {loggedIn ? (
+              <Redirect to='/movies' />
+            ) : (
+              <Login handleLoginSubmit={handleLoginSubmit} formError={formError} />
+            )}
           </Route>
 
           <Route path='/signup'>
-            {loggedIn
-              ? (<Redirect to='/movies' />)
-              : (<Register handleRegisterSubmit={handleRegisterSubmit} formError={formError} />)
-            }
+            {loggedIn ? (
+              <Redirect to='/movies' />
+            ) : (
+              <Register handleRegisterSubmit={handleRegisterSubmit} formError={formError} />
+            )}
           </Route>
 
           <Route exact path='/'>
