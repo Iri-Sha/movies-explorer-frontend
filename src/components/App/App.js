@@ -55,7 +55,6 @@ function App() {
     moviesApi.getMovies()
       .then((movies) => {
         setAllMovies(movies);
-        localStorage.setItem('allMovies', JSON.stringify(movies));
       })
       .catch((err) => {
         console.log(err);
@@ -227,7 +226,6 @@ function App() {
             <Header loggedIn={loggedIn} />
             <Movies
               allMovies={allMovies}
-              setAllMovies={setAllMovies}
               savedMovies={savedMovies}
               handleSaveMovie={handleSaveMovie}
               handleDeleteMovie={handleDeleteMovie}

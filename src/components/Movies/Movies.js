@@ -7,7 +7,6 @@ import { shortMovieDuration } from "../../utils/constants";
 
 function Movies({
     allMovies,
-    setAllMovies,
     savedMovies,
     handleSaveMovie,
     handleDeleteMovie,
@@ -118,14 +117,10 @@ function Movies({
 
     React.useEffect(() => {
         if (localStorage.getItem("query") !== "") {
-            handleSearch(localStorage.getItem("query"));
-            console.log(localStorage.getItem("query") === "п");
-            console.log(localStorage.getItem("query"));
+            allMovies.filter((movie) => movie.nameRU.toLowerCase().includes(localStorage.getItem("query").toLowerCase()));
         }
         else {
             renderMovies();
-            console.log(localStorage.getItem("query") === "п");
-            console.log(localStorage.getItem("query"));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
