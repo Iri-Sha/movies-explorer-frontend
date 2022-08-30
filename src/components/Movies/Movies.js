@@ -17,7 +17,7 @@ function Movies({
     const [isLoading, setIsLoading] = React.useState(false);
     const [isFirstSearch, setIsFirstSearch] = React.useState(true);
     const initialSearchQueryValues = localStorage.getItem("query");
-    const initialIsShort = !localStorage.getItem("isShort") ? false : localStorage.getItem("isShort");
+    const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
     const [countMovies, setCountMovies] = React.useState(startMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
@@ -27,9 +27,9 @@ function Movies({
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     const resultText = (isFirstSearch && localStorage.getItem("query") === null) ? (
-        "Для поиска укажите ключевое слово"
+        ""
     ) : (
-        "По вашему запросу ничего не найдено"
+        "Ничего не найдено"
     );
 
     React.useEffect(() => {
