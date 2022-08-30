@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchForm from '../SearchForm/SearchForm';
+import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import {shortMovieDuration} from "../../utils/constants";
 
@@ -12,6 +13,7 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
     const [isShort, setIsShort] = React.useState(false);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
     const [savedMoviesQuery, setSavedMoviesQuery]=React.useState("");
+    const resultText = "Ничего не найдено";
 
     function handleSearch(query) {
         setIsLoading(true);
@@ -81,12 +83,17 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
                 checked={isShort}
                 onCheckClick={handleShortClick}
             />
-            <MoviesCardList
-                movies={moviesToRender}
-                isLoading={isLoading}
-                handleDeleteMovie={handleClick}
-                savedMovies={savedMovies}
-            />
+            {isLoading ? (
+                <Preloader />
+            ) : (
+                <MoviesCardList
+                    movies={moviesToRender}
+                    isLoading={isLoading}
+                    handleDeleteMovie={handleClick}
+                    savedMovies={savedMovies}
+                    resultText={resultText}
+                />
+            )}
         </section>
     );
 };

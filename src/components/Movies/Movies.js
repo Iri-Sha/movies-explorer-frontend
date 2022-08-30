@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchForm from '../SearchForm/SearchForm';
+import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import useCurrentWidth from '../../hooks/usуCurrentWidth';
 import { shortMovieDuration } from "../../utils/constants";
@@ -96,8 +97,8 @@ function Movies({
     }
 
     function renderMovies() {
-        const query = localStorage.getItem("query");
-        const emptyQuery = (query === "" || query === "null")
+        const startQuery = localStorage.getItem("query" === "null");
+        const emptyQuery = (localStorage.getItem("query") === "")
         if (isShort && !emptyQuery) {
             getRenderMovies(filteredShortMovies);
         }
@@ -109,6 +110,9 @@ function Movies({
         }
         if (!isShort && emptyQuery) {
             getRenderMovies(allMovies);
+        }
+        if (!isShort && startQuery) {
+            getRenderMovies([]);
         }
     }
 
@@ -136,16 +140,20 @@ function Movies({
                 onCheckClick={handleShortClick}
                 initialSearchQueryValues={initialSearchQueryValues}
             />
-            <MoviesCardList
-                movies={isFirstSearch ? [] : moviesToRender}
-                savedMovies={savedMovies}
-                isMoreButton={isMoreButton}
-                isLoading={isLoading}
-                handleMoreButtonClick={handleAddMovies}
-                handleSaveMovie={handleSaveMovie}
-                handleDeleteMovie={handleDeleteMovie}
-                resultText={resultText}
-            />
+            {isLoading ? (
+                <Preloader />
+            ) : (
+                <MoviesCardList
+                    movies={moviesToRender}
+                    savedMovies={savedMovies}
+                    isMoreButton={isMoreButton}
+                    isLoading={isLoading}
+                    handleMoreButtonClick={handleAddMovies}
+                    handleSaveMovie={handleSaveMovie}
+                    handleDeleteMovie={handleDeleteMovie}
+                    resultText={resultText}
+                />
+            )}
         </section>
         
     );
