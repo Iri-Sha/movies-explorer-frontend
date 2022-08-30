@@ -12,22 +12,12 @@ function Profile({
     setIsActiveForUpdate,
     }) {
 
-    const [name, setName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const {
-        values, handleChange, errors, isValid, resetForm,
-    } = useFormWithValidation(currentUser);
+    const controls  = useFormWithValidation({
+        name: currentUser.name,
+        email: currentUser.email,
+    });
 
-    const isButtonDisabled = (!isValid || ((values.name === currentUser.name) && (values.email === currentUser.email)));
-
-    function handleChangeProfile(evt) {
-        handleChange(evt);
-        if(evt.target.name === "name") {
-          setName(evt.target.value);
-        } else {
-          setEmail(evt.target.value);
-        }
-    }
+    const isButtonDisabled = (!controls.isValid || ((controls.values.name === currentUser.name) && (controls.values.email === currentUser.email)));
 
     const handleEditProfile = (e) => {
         e.preventDefault();
@@ -36,14 +26,14 @@ function Profile({
 
     function handleSubmit(e){
         e.preventDefault();
-        handleProfileUpdate(name, email);
-        resetForm();
+        handleProfileUpdate(controls.values.name, controls.values.email);
+        controls.resetForm();
     }
 
-    React.useEffect(() => {
+    /*React.useEffect(() => {
         setName(currentUser.name);
         setEmail(currentUser.email);
-    }, [currentUser]);
+    }, [currentUser]);*/
 
     React.useEffect(() => {
         setIsActiveForUpdate(false);
@@ -64,11 +54,11 @@ function Profile({
                             maxLength="50"
                             required
                             disabled={!isActiveForUpdate}
-                            value={name || ''}
-                            onChange={handleChangeProfile}
+                            value={controls.values.name || ''}
+                            onChange={controls.handleChange}
                         />
                     </div>
-                    <span className="profile__input-error">{errors.name}</span>
+                    <span className="profile__input-error">{controls.errors.name}</span>
                     <div className="profile__input-container">
                         <label className="profile__lable">E-mail</label>
                         <input
@@ -79,11 +69,11 @@ function Profile({
                             maxLength="254"
                             required
                             disabled={!isActiveForUpdate}
-                            value={email || ''}
-                            onChange={handleChangeProfile}
+                            value={controls.values.email || ''}
+                            onChange={controls.handleChange}
                         />
                     </div>
-                    <span className="profile__input-error">{errors.email}</span>
+                    <span className="profile__input-error">{controls.errors.email}</span>
                     {!isActiveForUpdate ? (
                         <button
                             className="profile__edit-button"

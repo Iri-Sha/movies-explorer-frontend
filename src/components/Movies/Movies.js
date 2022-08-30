@@ -14,7 +14,7 @@ function Movies({
     
     const width = useCurrentWidth();
     const [isLoading, setIsLoading] = React.useState(false);
-    const initialSearchQueryValues = localStorage.getItem("query") || "";
+    const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : localStorage.getItem("isShort");
     const [countMovies, setCountMovies] = React.useState(startMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
