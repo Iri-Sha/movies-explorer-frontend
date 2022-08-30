@@ -15,22 +15,19 @@ function Movies({
     const width = useCurrentWidth();
     const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query") || "";
+    const initialIsShort = !localStorage.getItem("isShort") ? false : localStorage.getItem("isShort");
     const [countMovies, setCountMovies] = React.useState(startMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
-    const [isShort, setIsShort] = React.useState(stringToBool(localStorage.getItem('isShort')));
+    const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     React.useEffect(() => {
         getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    function stringToBool(string) {
-        return string !== "false";
-    }
 
     function startMovies(width) {
         if (width >= 1100) {
