@@ -7,6 +7,7 @@ import { shortMovieDuration } from "../../utils/constants";
 
 function Movies({
     allMovies,
+    setAllMovies,
     savedMovies,
     handleSaveMovie,
     handleDeleteMovie,
@@ -18,7 +19,7 @@ function Movies({
     const [isFirstSearch, setIsFirstSearch] = React.useState(true);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
-    const [countMovies, setCountMovies] = React.useState(startMovies(width));
+    const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -26,14 +27,14 @@ function Movies({
     const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
-    const resultText = (isFirstSearch && (localStorage.getItem("query") === "null")) ? "" : "Ничего не найдено";
-
+    const resultText = (isFirstSearch && (localStorage.getItem("query") === null)) ? "" : "Ничего не найдено";
+   
     React.useEffect(() => {
         getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
 
-    function startMovies(width) {
+    function startCounntMovies(width) {
         if (width >= 1100) {
             return 12;
         }
@@ -118,9 +119,13 @@ function Movies({
     React.useEffect(() => {
         if (localStorage.getItem("query") !== "") {
             handleSearch(localStorage.getItem("query"));
+            console.log(localStorage.getItem("query") === "п");
+            console.log(localStorage.getItem("query"));
         }
         else {
             renderMovies();
+            console.log(localStorage.getItem("query") === "п");
+            console.log(localStorage.getItem("query"));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
