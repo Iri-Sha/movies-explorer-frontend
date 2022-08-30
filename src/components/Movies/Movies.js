@@ -26,7 +26,9 @@ function Movies({
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     React.useEffect(() => {
+        setIsLoading(true);
         getMovies();
+        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -87,7 +89,6 @@ function Movies({
     }
 
     function renderMovies() {
-        setIsLoading(true);
         const query = localStorage.getItem("query");
         const emptyQuery = (query === "" || query === "null")
         if (isShort && !emptyQuery) {

@@ -67,8 +67,10 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
     }
 
     React.useEffect(() => {
+        setIsLoading(true);
         setShortMovies(savedMovies.filter((movie) => movie.duration <= shortMovieDuration));
         renderMovies();
+        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isShort, filteredMovies, filteredShortMovies, moviesToRender, savedMovies]);
 
