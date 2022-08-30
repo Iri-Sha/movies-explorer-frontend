@@ -18,8 +18,7 @@ function Profile({
         values, handleChange, errors, isValid, resetForm,
     } = useFormWithValidation(currentUser);
 
-    const isButtonDisabled =
-    !isValid || ((values.name === currentUser.name) && (values.email === currentUser.email));
+    const isButtonDisabled = (!isValid || ((values.name === currentUser.name) && (values.email === currentUser.email)));
 
     function handleChangeProfile(evt) {
         handleChange(evt);

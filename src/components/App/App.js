@@ -39,7 +39,6 @@ function App() {
       .then((res) => {
         setCurrentUser(res);
         setLoggedIn(true);
-        console.log(res);
       })
       .catch((err) => {
         setLoggedIn(false);
