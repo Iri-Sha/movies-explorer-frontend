@@ -26,11 +26,7 @@ function Movies({
     const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
-    const resultText = (isFirstSearch && (localStorage.getItem("query") === "null")) ? (
-        ""
-    ) : (
-        "Ничего не найдено"
-    );
+    const resultText = (isFirstSearch && (localStorage.getItem("query") === "null")) ? "" : "Ничего не найдено";
 
     React.useEffect(() => {
         getMovies();
@@ -122,8 +118,11 @@ function Movies({
     React.useEffect(() => {
         if (localStorage.getItem("query") !== "") {
             handleSearch(localStorage.getItem("query"));
-            console.log(localStorage.getItem("query") === "null");
-        } else {
+        }
+        if (localStorage.getItem("query") === "null") {
+            setMoviesToRender([]);
+        } 
+        else {
             renderMovies();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
