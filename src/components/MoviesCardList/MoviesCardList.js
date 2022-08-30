@@ -40,7 +40,7 @@ function MoviesCardList({
                     </>
                 ) : (
                     <div className="movies-card-list__conteiner">
-                        <p className= "not-found">resultText</p>
+                        <p className= "not-found">{resultText}</p>
                     </div>
                 )
             )}

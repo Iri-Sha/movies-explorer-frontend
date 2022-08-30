@@ -137,7 +137,7 @@ function Movies({
                 initialSearchQueryValues={initialSearchQueryValues}
             />
             <MoviesCardList
-                movies={moviesToRender}
+                movies={isFirstSearch ? [] : moviesToRender}
                 savedMovies={savedMovies}
                 isMoreButton={isMoreButton}
                 isLoading={isLoading}
