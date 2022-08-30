@@ -105,7 +105,7 @@ function Movies({
             getRenderMovies(filteredMovies);
         }
         if (!isShort && emptyQuery) {
-            getRenderMovies(allMovies);
+            getRenderMovies([]);
         }
     }
 
@@ -113,17 +113,14 @@ function Movies({
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
         renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [countMovies, isShort, filteredMovies, filteredShortMovies, allMovies])
+    }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
     React.useEffect(() => {
-        if (localStorage.getItem("query") === "") {
-            renderMovies();
-        }
-        if (localStorage.getItem("query") === "null") {
-            getRenderMovies([]);
-        } 
-        else {
+        if (localStorage.getItem("query") !== "") {
             handleSearch(localStorage.getItem("query"));
+        }
+        else {
+            renderMovies();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
