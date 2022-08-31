@@ -98,12 +98,15 @@ function Movies({
         const emptyQuery = (query === "" || query === "null")
         if (isShort && !emptyQuery) {
             getRenderMovies(filteredShortMovies);
+            localStorage.setItem("serchMovies", JSON.stringify(filteredShortMovies));
         }
         if (isShort && emptyQuery) {
             getRenderMovies(shortMovies);
+            localStorage.setItem("serchMovies", JSON.stringify(shortMovies));
         }
         if (!isShort && !emptyQuery) {
             getRenderMovies(filteredMovies);
+            localStorage.setItem("serchMovies", JSON.stringify(filteredMovies));
         }
         if (!isShort && emptyQuery) {
             getRenderMovies([]);
@@ -118,7 +121,7 @@ function Movies({
 
     React.useEffect(() => {
         if ((localStorage.getItem("query") !== "") && (localStorage.getItem("query") !== "null")) {
-            handleSearch(localStorage.getItem("query"));
+            JSON.parse(localStorage.getItem("serchMovies"));
         } else {
             renderMovies();
         }
