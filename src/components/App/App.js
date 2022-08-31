@@ -24,7 +24,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [status, setStatus] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-  const [isActiveForUpdate, setIsActiveForUpdate] = React.useState(false);
+  const [isActiveForUpdate, setIsActiveForUpdate] = React.useState(true);
   const [formError, setFormError] = React.useState('');
 
   const [allMovies, setAllMovies] = React.useState([]);
@@ -121,11 +121,14 @@ function App() {
   };
 
   function handleRegisterSubmit(name, email, password) {
+    setIsActiveForUpdate(false);
     return mainApi.registration(name, email, password)
       .then(() => {
         handleLoginSubmit(email, password);
+        setIsActiveForUpdate(true);
       })
       .catch((err) => {
+        setIsActiveForUpdate(true);
         if(err === 'Ошибка: 409') {
           return setFormError(errorTextConflict);
         }
@@ -134,24 +137,27 @@ function App() {
   }
 
   function handleLoginSubmit(email, password) {
+    setIsActiveForUpdate(false);
     mainApi.authorization(email, password)
       .then(() => {
         tokenCheck()
         setFormError("");
+        setIsActiveForUpdate(true);
       })
       .catch((err) => {
+        setIsActiveForUpdate(true);
         setFormError(errorLogin);
         console.log(err);
       })
   }
 
   function handleUpdateProfile(name, email) {
+    setIsActiveForUpdate(false);
     mainApi.editProfile(name, email)
       .then((res) => {
         setCurrentUser(res);
         setStatus(true);
         setIsInfoTooltipOpen(true);
-        setIsActiveForUpdate(false);
       })
       .catch((err) => {
         console.log(err);
@@ -207,7 +213,11 @@ function App() {
             {loggedIn ? (
               <Redirect to='/movies' />
             ) : (
-              <Login handleLoginSubmit={handleLoginSubmit} formError={formError} />
+              <Login
+                handleLoginSubmit={handleLoginSubmit}
+                formError={formError}
+                isActiveForUpdate={isActiveForUpdate}
+              />
             )}
           </Route>
 
@@ -215,7 +225,11 @@ function App() {
             {loggedIn ? (
               <Redirect to='/movies' />
             ) : (
-              <Register handleRegisterSubmit={handleRegisterSubmit} formError={formError} />
+              <Register
+                handleRegisterSubmit={handleRegisterSubmit}
+                formError={formError}
+                isActiveForUpdate={isActiveForUpdate}
+              />
             )}
           </Route>
 
@@ -235,6 +249,8 @@ function App() {
               getMovies={getMovies}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              isActiveForUpdate={isActiveForUpdate}
+              setIsActiveForUpdate={setIsActiveForUpdate}
             />
             <Footer />
           </ProtectedRoute>
@@ -247,6 +263,8 @@ function App() {
               handleDeleteMovie={handleDeleteMovie}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              isActiveForUpdate={isActiveForUpdate}
+              setIsActiveForUpdate={setIsActiveForUpdate}
             />
             <Footer />
           </ProtectedRoute>

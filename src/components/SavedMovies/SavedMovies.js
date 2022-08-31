@@ -4,7 +4,7 @@ import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import {shortMovieDuration} from "../../utils/constants";
 
-function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading}) {
+function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, isActiveForUpdate, setIsActiveForUpdate}) {
 
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -16,6 +16,7 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading}) 
 
     function handleSearch(query) {
         setIsLoading(true);
+        setIsActiveForUpdate(false);
         setFilteredShortMovies([]);
         setFilteredMovies([]);
         let filterSavedMovies = savedMovies;
@@ -26,6 +27,7 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading}) 
         setFilteredShortMovies(filterSavedMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterSavedMovies);
         setSavedMoviesQuery(query);
+        setIsActiveForUpdate(true);
         setIsLoading(false);
     }
 
@@ -81,6 +83,7 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading}) 
                 onSearch={handleSearch}
                 checked={isShort}
                 onCheckClick={handleShortClick}
+                isActiveForUpdate={isActiveForUpdate}
             />
             {isLoading ? (
                 <Preloader />

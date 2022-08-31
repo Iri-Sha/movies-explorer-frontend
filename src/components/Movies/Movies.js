@@ -13,18 +13,21 @@ function Movies({
     getMovies,
     isLoading,
     setIsLoading,
+    isActiveForUpdate,
+    setIsActiveForUpdate,
     }) {
     
     const width = useCurrentWidth();
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
+    const initialMovies = localStorage.getItem("serchMovies") ? JSON.parse(localStorage.getItem("serchMovies")) : [];
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(initialIsShort);
-    const [moviesToRender, setMoviesToRender] = React.useState([]);
+    const [moviesToRender, setMoviesToRender] = React.useState(initialMovies);
 
     const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
 
@@ -57,6 +60,7 @@ function Movies({
             result.push(movies[i]);
         }
         setMoviesToRender(result);
+        localStorage.setItem("serchMovies", JSON.stringify(result));
 
         setTimeout(() => {
             if (movies.length > countMovies) {
@@ -70,6 +74,7 @@ function Movies({
 
     function handleSearch(query) {
         setIsLoading(true);
+        setIsActiveForUpdate(false);
         let filterMovies = allMovies;
         if (query !== "" && query!==null) {
             filterMovies = allMovies.filter((movie) =>
@@ -78,6 +83,7 @@ function Movies({
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
+        setIsActiveForUpdate(true);
         setIsLoading(false);
     }
 
@@ -106,6 +112,11 @@ function Movies({
     }
 
     React.useEffect(() => {
+        getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
         if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
             handleSearch(initialSearchQueryValues);
@@ -120,11 +131,6 @@ function Movies({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender])
 
-    React.useEffect(() => {
-        getMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     return (
         <section>
             <SearchForm
@@ -132,6 +138,7 @@ function Movies({
                 checked={isShort}
                 onCheckClick={handleShortClick}
                 initialSearchQueryValues={initialSearchQueryValues}
+                isActiveForUpdate={isActiveForUpdate}
             />
             {isLoading ? (
                 <Preloader />

@@ -3,7 +3,7 @@ import './Register.css';
 import Form from '../Form/Form';
 import useFormWithValidation from '../../hooks/useValidationForm';
 
-function Register({handleRegisterSubmit, formError}) {
+function Register({handleRegisterSubmit, formError, isActiveForUpdate}) {
 
     const {
         values, handleChange, errors, isValid, resetForm,
@@ -32,6 +32,7 @@ function Register({handleRegisterSubmit, formError}) {
                         required
                         value={values.name || ''}
                         onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
                     <span className="register__input-error">{errors.name}</span>
                     <label className="register__label">E-mail</label>
@@ -46,6 +47,7 @@ function Register({handleRegisterSubmit, formError}) {
                         required
                         value={values.email || ''}
                         onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
                     <span className="register__input-error">{errors.email}</span>
                     <label className="register__label">Пароль</label>
@@ -59,6 +61,7 @@ function Register({handleRegisterSubmit, formError}) {
                         required
                         value={values.password || ''}
                         onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
                     <span className="register__input-error">{errors.password}</span>
                 </div>

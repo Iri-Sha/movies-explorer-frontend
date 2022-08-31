@@ -17,6 +17,11 @@ function Profile({
     } = useFormWithValidation();
 
     React.useEffect(() => {
+        setIsActiveForUpdate(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    React.useEffect(() => {
         updateValue('name', currentUser.name);
         updateValue('email', currentUser.email);
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,10 +39,6 @@ function Profile({
         handleProfileUpdate(values.name, values.email);
         resetForm();
     }
-
-    React.useEffect(() => {
-        setIsActiveForUpdate(false);
-    }, [setIsActiveForUpdate]);
 
     return (
         <section className="profile">

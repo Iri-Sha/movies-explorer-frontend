@@ -7,6 +7,7 @@ function SearchForm({
     checked,
     onCheckClick,
     initialSearchQueryValues,
+    isActiveForUpdate,
     }) {
 
     const [query, setQuery] = React.useState(initialSearchQueryValues);
@@ -36,6 +37,7 @@ function SearchForm({
                         type="text"
                         value={(query!=="null")?(query):("")}
                         onChange={handleQueryChange}
+                        disabled={!isActiveForUpdate}
                         required
                     />
                     <button className="search-form__button" type="submit">Найти</button>

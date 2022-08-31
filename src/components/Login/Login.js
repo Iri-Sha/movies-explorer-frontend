@@ -3,7 +3,7 @@ import './Login.css';
 import Form from '../Form/Form';
 import useFormWithValidation from '../../hooks/useValidationForm';
 
-function Login({handleLoginSubmit, formError}) {
+function Login({handleLoginSubmit, formError, isActiveForUpdate}) {
 
     const {
         values, handleChange, errors, isValid, resetForm,
@@ -32,6 +32,7 @@ function Login({handleLoginSubmit, formError}) {
                         required
                         value={values.email || ''}
                         onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
                     <span className="login__input-error">{errors.email}</span>
                     <label className="login__label">Пароль</label>
@@ -45,6 +46,7 @@ function Login({handleLoginSubmit, formError}) {
                         required
                         value={values.password || ''}
                         onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
                     <span className="login__input-error">{errors.password}</span>
                 </div>
