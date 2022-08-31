@@ -104,22 +104,21 @@ function Movies({
 
     React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
-        renderMovies();
+        if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
+            handleSearch(initialSearchQueryValues);
+        } else {
+            renderMovies();
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allMovies])
 
     React.useEffect(() => {
         renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender, allMovies])
+    }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender])
 
     React.useEffect(() => {
         getMovies();
-        if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
-            handleSearch(initialSearchQueryValues);
-        } else {
-            renderMovies();
-        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
