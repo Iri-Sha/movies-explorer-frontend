@@ -125,14 +125,18 @@ function Movies({
         if (localStorage.getItem("serchMovies")) {
             const movies = JSON.parse(localStorage.getItem("serchMovies"));
             movies.length === 0 ? setNotFound(true) : setNotFound(false);
-            setInitialMovies(movies);
+            setInitialMovies(() => handleSearch(initialSearchQueryValues));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
-        renderMovies();
+        if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
+            handleSearch(initialSearchQueryValues);
+        } else {
+            renderMovies();
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allMovies])
 
