@@ -15,7 +15,7 @@ function Movies({
     
     const width = useCurrentWidth();
     const [isLoading, setIsLoading] = React.useState(false);
-    const [isFirstSearch, setIsFirstSearch] = React.useState(true);
+    //const [isFirstSearch, setIsFirstSearch] = React.useState(true);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
@@ -26,7 +26,7 @@ function Movies({
     const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
-    const resultText = (isFirstSearch && (localStorage.getItem("query") === null)) ? "" : "Ничего не найдено";
+    const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
    
     React.useEffect(() => {
         getMovies();
@@ -75,7 +75,7 @@ function Movies({
 
     function handleSearch(query) {
         setIsLoading(true);
-        setIsFirstSearch(false);
+        //setIsFirstSearch(false);
         let filterMovies = allMovies;
         if (query !== "" && query!==null) {
             filterMovies = allMovies.filter((movie) =>
@@ -117,10 +117,11 @@ function Movies({
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
     React.useEffect(() => {
-        if (localStorage.getItem("query") !== "" || localStorage.getItem("query") !== "null" ) {
-            handleSearch(localStorage.getItem("query"));
+        if ((localStorage.getItem("query") === "") || (localStorage.getItem("query") === "null")) {
+            renderMovies();
         }
         else {
+            handleSearch(localStorage.getItem("query"));
             renderMovies();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
