@@ -9,12 +9,13 @@ function MoviesCardList({
     handleMoreButtonClick,
     handleSaveMovie,
     handleDeleteMovie,
-    resultText
+    resultText,
+    notFound,
     }) {
 
     return (
         <section className="movies-card-list">
-            {movies.length !== 0 ? (
+            {!notFound ? (
                 <>
                 <div className="movies-card-list__conteiner">
                     {movies.map((movie)=>(

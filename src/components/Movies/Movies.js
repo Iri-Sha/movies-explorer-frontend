@@ -28,6 +28,7 @@ function Movies({
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState(initialMovies);
+    const [notFound, setNotFound] = React.useState();
 
     const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
 
@@ -117,6 +118,13 @@ function Movies({
     }, [])
 
     React.useEffect(() => {
+        if(moviesToRender.length === 0) {
+            setNotFound(true);
+        }
+        setNotFound(false);
+    }, [moviesToRender]);
+
+    React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
         if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
             handleSearch(initialSearchQueryValues);
@@ -151,6 +159,8 @@ function Movies({
                     handleSaveMovie={handleSaveMovie}
                     handleDeleteMovie={handleDeleteMovie}
                     resultText={resultText}
+                    isLoading={isLoading}
+                    notFound={notFound}
                 />
             )}
         </section>
