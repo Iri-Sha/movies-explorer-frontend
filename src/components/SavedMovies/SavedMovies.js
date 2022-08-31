@@ -38,15 +38,15 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
 
     function getRenderMovies(savedMovies){
         setMoviesToRender(savedMovies);
-        if (savedMovies.length === 0) {
-            setNotFound(true);
-        } else {
-            setNotFound(false);
-        }
     }
 
     function renderMovies() {
         setIsLoading(true);
+        if (filteredShortMovies.length === 0) {
+            setNotFound(true);
+        } else {
+            setNotFound(false);
+        }
         if (isShort && filteredShortMovies.length!==0) {
             getRenderMovies(filteredShortMovies);
         }

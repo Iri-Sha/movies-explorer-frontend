@@ -90,6 +90,11 @@ function Movies({
                 movie.nameRU.toLowerCase().includes(query.toLowerCase()));
             localStorage.setItem("serchMovies", JSON.stringify(filterMovies));
         };
+        if (filterMovies.length === 0) {
+            setNotFound(true);
+        } else {
+            setNotFound(false);
+        }
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
