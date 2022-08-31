@@ -17,13 +17,14 @@ function Movies({
     const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
+    const initialMovies = localStorage.getItem("serchMovies") ? JSON.parse(localStorage.getItem("serchMovies")) : [];
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(initialIsShort);
-    const [moviesToRender, setMoviesToRender] = React.useState([]);
+    const [moviesToRender, setMoviesToRender] = React.useState(initialMovies);
 
     const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
    
@@ -117,14 +118,14 @@ function Movies({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
-    React.useEffect(() => {
+    /*React.useEffect(() => {
         if ((localStorage.getItem("query") !== "") && (localStorage.getItem("query") !== "null")) {
             JSON.parse(localStorage.getItem("serchMovies"));
         } else {
             renderMovies();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [])*/
 
     return (
         <section>
