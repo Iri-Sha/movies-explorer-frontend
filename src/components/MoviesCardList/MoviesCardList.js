@@ -1,6 +1,7 @@
 import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader';
 
 function MoviesCardList({
     movies,
@@ -15,29 +16,35 @@ function MoviesCardList({
 
     return (
         <section className="movies-card-list">
-            {movies.length !== 0 ? (
+            {isLoading ? (
+                <Preloader />
+            ) : (
                 <>
-                <div className="movies-card-list__conteiner">
-                    {movies.map((movie)=>(
-                        <MoviesCard
-                            movie={movie}
-                            key={movie.id || movie._id}
-                            handleSaveMovie={handleSaveMovie}
-                            handleDeleteMovie={handleDeleteMovie}
-                            savedMovies={savedMovies}
-                        />
-                    ))}
-                </div>
-                {isMoreButton ? (
-                    <button className="more-button" onClick={handleMoreButtonClick}>Ёще</button>
+                {movies.length !== 0 ? (
+                    <>
+                    <div className="movies-card-list__conteiner">
+                        {movies.map((movie)=>(
+                            <MoviesCard
+                                movie={movie}
+                                key={movie.id || movie._id}
+                                handleSaveMovie={handleSaveMovie}
+                                handleDeleteMovie={handleDeleteMovie}
+                                savedMovies={savedMovies}
+                            />
+                        ))}
+                    </div>
+                    {isMoreButton ? (
+                        <button className="more-button" onClick={handleMoreButtonClick}>Ёще</button>
+                    ) : (
+                    <div className="more-button_disable"></div>
+                    )}
+                    </>
                 ) : (
-                <div className="more-button_disable"></div>
+                    <div className="movies-card-list__conteiner">
+                            <p className="not-found">{resultText}</p>
+                    </div>
                 )}
                 </>
-            ) : (
-                <div className="movies-card-list__conteiner">
-                    <p className={isLoading ? "not-found_hidden " : "not-found"}>{resultText}</p>
-                </div>
             )}
         </section>
         
