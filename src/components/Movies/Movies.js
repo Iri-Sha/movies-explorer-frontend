@@ -17,14 +17,14 @@ function Movies({
     const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
-    const initialMovies = localStorage.getItem("serchMovies") ? JSON.parse(localStorage.getItem("serchMovies")) : [];
+    //const initialMovies = localStorage.getItem("serchMovies") ? JSON.parse(localStorage.getItem("serchMovies")) : [];
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(initialIsShort);
-    const [moviesToRender, setMoviesToRender] = React.useState(initialMovies);
+    const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
    
@@ -83,7 +83,7 @@ function Movies({
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
-        localStorage.setItem("serchMovies", JSON.stringify(filterMovies));
+        //localStorage.setItem("serchMovies", JSON.stringify(filterMovies));
         setIsLoading(false);
     }
 
@@ -97,15 +97,15 @@ function Movies({
         const emptyQuery = (query === "" || query === "null")
         if (isShort && !emptyQuery) {
             getRenderMovies(filteredShortMovies);
-            localStorage.setItem("serchMovies", JSON.stringify(filteredShortMovies));
+            //localStorage.setItem("serchMovies", JSON.stringify(filteredShortMovies));
         }
         if (isShort && emptyQuery) {
             getRenderMovies(shortMovies);
-            localStorage.setItem("serchMovies", JSON.stringify(shortMovies));
+            //localStorage.setItem("serchMovies", JSON.stringify(shortMovies));
         }
         if (!isShort && !emptyQuery) {
             getRenderMovies(filteredMovies);
-            localStorage.setItem("serchMovies", JSON.stringify(filteredMovies));
+            //localStorage.setItem("serchMovies", JSON.stringify(filteredMovies));
         }
         if (!isShort && emptyQuery) {
             getRenderMovies([]);
@@ -118,14 +118,14 @@ function Movies({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
-    /*React.useEffect(() => {
+    React.useEffect(() => {
         if ((localStorage.getItem("query") !== "") && (localStorage.getItem("query") !== "null")) {
-            JSON.parse(localStorage.getItem("serchMovies"));
+            handleSearch(initialSearchQueryValues);
         } else {
             renderMovies();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])*/
+    }, [])
 
     return (
         <section>
