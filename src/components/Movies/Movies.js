@@ -80,11 +80,11 @@ function Movies({
         if (query !== "" && query!==null) {
             filterMovies = allMovies.filter((movie) =>
                 movie.nameRU.toLowerCase().includes(query.toLowerCase()));
-        }
+        };
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
-        localStorage.setItem("serchMovies", filterMovies);
+        localStorage.setItem("serchMovies", JSON.stringify(filterMovies));
         setIsLoading(false);
     }
 
@@ -117,11 +117,9 @@ function Movies({
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
     React.useEffect(() => {
-        if ((localStorage.getItem("query") === "") || (localStorage.getItem("query") === "null")) {
-            renderMovies();
-        }
-        else {
+        if ((localStorage.getItem("query") !== "") && (localStorage.getItem("query") !== "null")) {
             handleSearch(localStorage.getItem("query"));
+        } else {
             renderMovies();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
