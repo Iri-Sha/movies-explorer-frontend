@@ -61,12 +61,12 @@ function Movies({
         for (let i = 0; i < countMovies && i < movies.length; i = i + 1) {
             result.push(movies[i]);
         }
-        setMoviesToRender(result);
         if (result.length === 0) {
             setNotFound(true);
         } else {
             setNotFound(false);
         }
+        setMoviesToRender(result);
 
         if (movies.length > countMovies) {
             setIsMoreButton(true);

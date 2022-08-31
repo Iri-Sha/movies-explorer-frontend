@@ -37,22 +37,24 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
     }
 
     function getRenderMovies(savedMovies){
+        if (savedMovies.length === 0) {
+            setNotFound(true);
+        } else {
+            setNotFound(false);
+        }
         setMoviesToRender(savedMovies);
     }
 
     function renderMovies() {
         setIsLoading(true);
-        if (filteredShortMovies.length === 0) {
-            setNotFound(true);
-        } else {
-            setNotFound(false);
-        }
+        
         if (isShort && filteredShortMovies.length!==0) {
             getRenderMovies(filteredShortMovies);
         }
         if (isShort && filteredShortMovies.length===0) {
             if(savedMoviesQuery!=="") {
                 getRenderMovies([])
+                setNotFound(true);
             }
             else{
                 getRenderMovies(shortMovies);
@@ -64,6 +66,7 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
         if (!isShort && filteredMovies.length===0) {
             if(savedMoviesQuery!=="") {
                 getRenderMovies([])
+                setNotFound(true);
             }
             else{
                 getRenderMovies(savedMovies);
