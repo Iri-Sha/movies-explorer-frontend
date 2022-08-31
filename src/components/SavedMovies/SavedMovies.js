@@ -40,8 +40,9 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
         setMoviesToRender(savedMovies);
         if (savedMovies.length === 0) {
             setNotFound(true);
+        } else {
+            setNotFound(false);
         }
-        setNotFound(false);
     }
 
     function renderMovies() {

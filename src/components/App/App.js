@@ -57,6 +57,7 @@ function App() {
     moviesApi.getMovies()
       .then((movies) => {
         setAllMovies(movies);
+        localStorage.setItem("allmovies", JSON.stringify(movies))
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +74,7 @@ function App() {
       .then((movies) => {
         const moviesToShow = movies.filter((movie) => movie.owner === currentUser._id);
         setSavedMovies(moviesToShow);
-        localStorage.setItem('saved-movies', JSON.stringify(moviesToShow));
+        localStorage.setItem("saved-movies", JSON.stringify(moviesToShow));
       })
       .catch((err) => {
         console.log(err);
@@ -243,6 +244,7 @@ function App() {
             <Header loggedIn={loggedIn} />
             <Movies
               allMovies={allMovies}
+              setAllMovies={setAllMovies}
               savedMovies={savedMovies}
               handleSaveMovie={handleSaveMovie}
               handleDeleteMovie={handleDeleteMovie}

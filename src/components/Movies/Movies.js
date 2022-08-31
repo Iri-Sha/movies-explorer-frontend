@@ -7,6 +7,7 @@ import { shortMovieDuration } from "../../utils/constants";
 
 function Movies({
     allMovies,
+    setAllMovies,
     savedMovies,
     handleSaveMovie,
     handleDeleteMovie,
@@ -68,19 +69,22 @@ function Movies({
         }
         localStorage.setItem("serchMovies", JSON.stringify(result));
 
-        setTimeout(() => {
-            if (movies.length > countMovies) {
-                setIsMoreButton(true);
-            } else {
-                setIsMoreButton(false);
-            }
-        }, 150);
+        if (movies.length > countMovies) {
+            setIsMoreButton(true);
+        } else {
+            setIsMoreButton(false);
+        }
         setIsLoading(false);
     }
 
     function handleSearch(query) {
         setIsLoading(true);
         setIsActiveForUpdate(false);
+        if (localStorage.getItem("allmovies")) {
+            setAllMovies(JSON.parse(localStorage.getItem("allmovies")));
+        } else {
+            getMovies();
+        }
         let filterMovies = allMovies;
         if (query !== "" && query!==null) {
             filterMovies = allMovies.filter((movie) =>
@@ -118,7 +122,6 @@ function Movies({
     }
 
     React.useEffect(() => {
-        getMovies();
         if (localStorage.getItem("serchMovies")) {
             const movies = JSON.parse(localStorage.getItem("serchMovies"));
             movies.length === 0 ? setNotFound(true) : setNotFound(false);
