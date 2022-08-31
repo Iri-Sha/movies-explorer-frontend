@@ -4,9 +4,8 @@ import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import {shortMovieDuration} from "../../utils/constants";
 
-function SavedMovies({savedMovies, handleDeleteMovie}) {
+function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading}) {
 
-    const [isLoading, setIsLoading] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
     const [filteredMovies, setFilteredMovies] = React.useState([]);
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
@@ -39,6 +38,7 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
     }
 
     function renderMovies() {
+        setIsLoading(true);
         if (isShort && filteredShortMovies.length!==0) {
             getRenderMovies(filteredShortMovies);
         }
@@ -61,6 +61,7 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
                 getRenderMovies(savedMovies);
             }
         }
+        setIsLoading(false);
     }
 
     function handleClick(savedMovies){
@@ -69,10 +70,8 @@ function SavedMovies({savedMovies, handleDeleteMovie}) {
     }
 
     React.useEffect(() => {
-        setIsLoading(true);
         setShortMovies(savedMovies.filter((movie) => movie.duration <= shortMovieDuration));
         renderMovies();
-        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isShort, filteredMovies, filteredShortMovies, moviesToRender, savedMovies]);
 

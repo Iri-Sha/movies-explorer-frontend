@@ -10,11 +10,12 @@ function Movies({
     savedMovies,
     handleSaveMovie,
     handleDeleteMovie,
-    getMovies
+    getMovies,
+    isLoading,
+    setIsLoading,
     }) {
     
     const width = useCurrentWidth();
-    const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
@@ -86,6 +87,7 @@ function Movies({
     }
 
     function renderMovies() {
+        setIsLoading(true);
         const query = localStorage.getItem("query");
         const emptyQuery = (query === "" || query === "null")
         if (isShort && !emptyQuery) {
@@ -100,6 +102,7 @@ function Movies({
         if (!isShort && emptyQuery) {
             getRenderMovies([]);
         }
+        setIsLoading(false);
     }
 
     React.useEffect(() => {
@@ -137,7 +140,6 @@ function Movies({
                     movies={moviesToRender}
                     savedMovies={savedMovies}
                     isMoreButton={isMoreButton}
-                    isLoading={isLoading}
                     handleMoreButtonClick={handleAddMovies}
                     handleSaveMovie={handleSaveMovie}
                     handleDeleteMovie={handleDeleteMovie}

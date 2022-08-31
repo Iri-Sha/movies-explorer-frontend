@@ -19,6 +19,7 @@ import { errorText, errorTextConflict, errorLogin } from "../../utils/constants"
 
 function App() {
   const history = useHistory();
+  const [isLoading, setIsLoading] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [status, setStatus] = React.useState(false);
@@ -52,6 +53,7 @@ function App() {
 
 //Подгружаем все фильмы в localStorage
   function getMovies() {
+    setIsLoading(true);
     moviesApi.getMovies()
       .then((movies) => {
         setAllMovies(movies);
@@ -62,6 +64,7 @@ function App() {
         setStatus(false);
         setIsInfoTooltipOpen(true);
       });
+    setIsLoading(false);
   };
 
   //Подгружаем сохраненные фильмы
@@ -230,6 +233,8 @@ function App() {
               handleSaveMovie={handleSaveMovie}
               handleDeleteMovie={handleDeleteMovie}
               getMovies={getMovies}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
             />
             <Footer />
           </ProtectedRoute>
@@ -240,6 +245,8 @@ function App() {
               savedMovies={savedMovies}
               getSavedMovies={getSavedMovies}
               handleDeleteMovie={handleDeleteMovie}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
             />
             <Footer />
           </ProtectedRoute>
