@@ -17,7 +17,6 @@ function Movies({
     const [isLoading, setIsLoading] = React.useState(false);
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
-    //const initialMovies = localStorage.getItem("serchMovies") ? JSON.parse(localStorage.getItem("serchMovies")) : [];
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
@@ -83,7 +82,6 @@ function Movies({
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
-        //localStorage.setItem("serchMovies", JSON.stringify(filterMovies));
         setIsLoading(false);
     }
 
@@ -97,15 +95,12 @@ function Movies({
         const emptyQuery = (query === "" || query === "null")
         if (isShort && !emptyQuery) {
             getRenderMovies(filteredShortMovies);
-            //localStorage.setItem("serchMovies", JSON.stringify(filteredShortMovies));
         }
         if (isShort && emptyQuery) {
             getRenderMovies(shortMovies);
-            //localStorage.setItem("serchMovies", JSON.stringify(shortMovies));
         }
         if (!isShort && !emptyQuery) {
             getRenderMovies(filteredMovies);
-            //localStorage.setItem("serchMovies", JSON.stringify(filteredMovies));
         }
         if (!isShort && emptyQuery) {
             getRenderMovies([]);
@@ -114,6 +109,11 @@ function Movies({
 
     React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
+        renderMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [allMovies])
+
+    React.useEffect(() => {
         renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
