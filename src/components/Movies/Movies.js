@@ -26,11 +26,6 @@ function Movies({
     const [moviesToRender, setMoviesToRender] = React.useState([]);
 
     const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
-   
-    React.useEffect(() => {
-        getMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     function startCounntMovies(width) {
         if (width >= 1100) {
@@ -116,9 +111,10 @@ function Movies({
     React.useEffect(() => {
         renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender])
+    }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender, allMovies])
 
     React.useEffect(() => {
+        getMovies();
         if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
             handleSearch(initialSearchQueryValues);
         } else {
