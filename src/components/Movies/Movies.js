@@ -61,6 +61,11 @@ function Movies({
             result.push(movies[i]);
         }
         setMoviesToRender(result);
+        if (result.length === 0) {
+            setNotFound(true);
+        } else {
+            setNotFound(false);
+        }
         localStorage.setItem("serchMovies", JSON.stringify(result));
 
         setTimeout(() => {
@@ -121,13 +126,6 @@ function Movies({
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    React.useEffect(() => {
-        if (moviesToRender.length === 0) {
-            setNotFound(true);
-        }
-        setNotFound(false);
-    }, [moviesToRender]);
 
     React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));

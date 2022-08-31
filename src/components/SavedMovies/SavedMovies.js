@@ -38,6 +38,10 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
 
     function getRenderMovies(savedMovies){
         setMoviesToRender(savedMovies);
+        if (savedMovies.length === 0) {
+            setNotFound(true);
+        }
+        setNotFound(false);
     }
 
     function renderMovies() {
@@ -77,13 +81,6 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
         renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isShort, filteredMovies, filteredShortMovies, moviesToRender, savedMovies]);
-
-    React.useEffect(() => {
-        if (moviesToRender.length === 0) {
-            setNotFound(true);
-        }
-        setNotFound(false);
-    }, [moviesToRender]);
 
     return (
         <section>
