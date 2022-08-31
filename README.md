@@ -23,4 +23,6 @@ mongoDB
 
 [Ссылка на backend часть проекта](https://github.com/Iri-Sha/movies-explorer-api.git)
 
-[ссылку на пул реквест](https://github.com/Iri-Sha/movies-explorer-frontend/pull/2)
+[Ссылку на пул реквест](https://github.com/Iri-Sha/movies-explorer-frontend/pull/2)
+
+[Ссылка на макет](https://disk.yandex.ru/d/bA-CViEQEqvxOQ)
