@@ -119,7 +119,7 @@ function Movies({
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
     React.useEffect(() => {
-        if ((localStorage.getItem("query") !== "") && (localStorage.getItem("query") !== "null")) {
+        if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
             handleSearch(initialSearchQueryValues);
         } else {
             renderMovies();
