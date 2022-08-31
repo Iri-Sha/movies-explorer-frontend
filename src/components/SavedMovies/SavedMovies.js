@@ -12,6 +12,7 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
     const [isShort, setIsShort] = React.useState(false);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
     const [savedMoviesQuery, setSavedMoviesQuery]=React.useState("");
+    const [notFound, setNotFound] = React.useState(false);
     const resultText = "Ничего не найдено";
 
     function handleSearch(query) {
@@ -77,6 +78,13 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isShort, filteredMovies, filteredShortMovies, moviesToRender, savedMovies]);
 
+    React.useEffect(() => {
+        if (moviesToRender.length === 0) {
+            setNotFound(false);
+        }
+        setNotFound(true);
+    }, [moviesToRender]);
+
     return (
         <section>
             <SearchForm
@@ -94,6 +102,7 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
                     handleDeleteMovie={handleClick}
                     savedMovies={savedMovies}
                     resultText={resultText}
+                    notFound={notFound}
                 />
             )}
         </section>

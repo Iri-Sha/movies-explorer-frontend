@@ -28,7 +28,7 @@ function Movies({
     const [filteredShortMovies, setFilteredShortMovies] = React.useState([]);
     const [isShort, setIsShort] = React.useState(initialIsShort);
     const [moviesToRender, setMoviesToRender] = React.useState(initialMovies);
-    const [notFound, setNotFound] = React.useState();
+    const [notFound, setNotFound] = React.useState(false);
 
     const resultText = (localStorage.getItem("query") === "null") ? "" : "Ничего не найдено";
 
