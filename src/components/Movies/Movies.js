@@ -67,7 +67,6 @@ function Movies({
         } else {
             setNotFound(false);
         }
-        localStorage.setItem("serchMovies", JSON.stringify(result));
 
         if (movies.length > countMovies) {
             setIsMoreButton(true);
@@ -89,6 +88,7 @@ function Movies({
         if (query !== "" && query!==null) {
             filterMovies = allMovies.filter((movie) =>
                 movie.nameRU.toLowerCase().includes(query.toLowerCase()));
+            localStorage.setItem("serchMovies", JSON.stringify(filterMovies));
         };
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
@@ -132,11 +132,7 @@ function Movies({
 
     React.useEffect(() => {
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
-        if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
-            handleSearch(initialSearchQueryValues);
-        } else {
-            renderMovies();
-        }
+        renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allMovies])
 
