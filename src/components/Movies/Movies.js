@@ -84,6 +84,7 @@ function Movies({
         setFilteredShortMovies(filterMovies.filter((movie) => movie.duration <= shortMovieDuration));
         setFilteredMovies(filterMovies);
         localStorage.setItem("query", query);
+        localStorage.setItem("serchMovies", filterMovies);
         setIsLoading(false);
     }
 
@@ -116,8 +117,8 @@ function Movies({
     }, [countMovies, isShort, filteredMovies, filteredShortMovies])
 
     React.useEffect(() => {
-        if (localStorage.getItem("query") !== "") {
-            allMovies.filter((movie) => movie.nameRU.toLowerCase().includes(localStorage.getItem("query").toLowerCase()));
+        if (localStorage.getItem("query") !== "" || localStorage.getItem("query") !== "null" ) {
+            handleSearch(localStorage.getItem("query"));
         }
         else {
             renderMovies();
