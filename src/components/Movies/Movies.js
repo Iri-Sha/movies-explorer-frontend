@@ -51,7 +51,9 @@ function Movies({
     }
 
     function handleAddMovies() {
-        setCountMovies((prevCount) => prevCount + addMovies(width))
+        setIsLoading(true);
+        setCountMovies((prevCount) => prevCount + addMovies(width));
+        setIsLoading(false);
     }
 
     function getRenderMovies(movies) {
@@ -103,8 +105,10 @@ function Movies({
     }
 
     function handleShortClick() {
+        setIsLoading(true);
         localStorage.setItem("isShort", String(!isShort));
         setIsShort(!isShort);
+        setIsLoading(false);
     }
 
     function renderMovies() {
@@ -127,26 +131,32 @@ function Movies({
     }
 
     React.useEffect(() => {
+        setIsLoading(true);
         if (localStorage.getItem("serchMovies")) {
             const movies = JSON.parse(localStorage.getItem("serchMovies"));
             movies.length === 0 ? setNotFound(true) : setNotFound(false);
             setInitialMovies(() => handleSearch(initialSearchQueryValues));
         }
+        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     React.useEffect(() => {
+        setIsLoading(true);
         setShortMovies(allMovies.filter((movie) => movie.duration <= shortMovieDuration));
         if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
             handleSearch(initialSearchQueryValues);
         } else {
             renderMovies();
         }
+        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allMovies])
 
     React.useEffect(() => {
+        setIsLoading(true);
         renderMovies();
+        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender])
 

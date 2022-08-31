@@ -76,13 +76,17 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
     }
 
     function handleClick(savedMovies){
+        setIsLoading(true);
         handleDeleteMovie(savedMovies);
         setMoviesToRender(moviesToRender.filter((movie)=>movie._id!==movie.id));
+        setIsLoading(false);
     }
 
     React.useEffect(() => {
+        setIsLoading(true);
         setShortMovies(savedMovies.filter((movie) => movie.duration <= shortMovieDuration));
         renderMovies();
+        setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isShort, filteredMovies, filteredShortMovies, moviesToRender, savedMovies]);
 
