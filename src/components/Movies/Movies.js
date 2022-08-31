@@ -20,7 +20,7 @@ function Movies({
     const width = useCurrentWidth();
     const initialSearchQueryValues = localStorage.getItem("query");
     const initialIsShort = !localStorage.getItem("isShort") ? false : JSON.parse(localStorage.getItem("isShort"));
-    const initialMovies = localStorage.getItem("serchMovies") ? JSON.parse(localStorage.getItem("serchMovies")) : [];
+    const [initialMovies, setInitialMovies] = React.useState([]);
     const [countMovies, setCountMovies] = React.useState(startCounntMovies(width));
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const [shortMovies, setShortMovies] = React.useState([]);
@@ -114,11 +114,16 @@ function Movies({
 
     React.useEffect(() => {
         getMovies();
+        if (localStorage.getItem("serchMovies")) {
+            const movies = JSON.parse(localStorage.getItem("serchMovies"));
+            movies.length === 0 ? setNotFound(true) : setNotFound(false);
+            setInitialMovies(movies);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     React.useEffect(() => {
-        if(moviesToRender.length === 0) {
+        if (moviesToRender.length === 0) {
             setNotFound(true);
         }
         setNotFound(false);
