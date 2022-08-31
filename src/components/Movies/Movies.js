@@ -116,7 +116,7 @@ function Movies({
     React.useEffect(() => {
         renderMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [countMovies, isShort, filteredMovies, filteredShortMovies])
+    }, [countMovies, isShort, filteredMovies, filteredShortMovies, moviesToRender])
 
     React.useEffect(() => {
         if ((localStorage.getItem("query") !== "") || (localStorage.getItem("query") !== "null")) {
