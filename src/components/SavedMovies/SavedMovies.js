@@ -80,9 +80,9 @@ function SavedMovies({savedMovies, handleDeleteMovie, isLoading, setIsLoading, i
 
     React.useEffect(() => {
         if (moviesToRender.length === 0) {
-            setNotFound(false);
+            setNotFound(true);
         }
-        setNotFound(true);
+        setNotFound(false);
     }, [moviesToRender]);
 
     return (
