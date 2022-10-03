@@ -10,19 +10,14 @@ HTML
 CSS
 Javascript
 React
-Git
-Express.js
-mongoDB
 
 ### Установка зависимостей
 Запустить проект можно с помощью npm run dev
 
 ### Ссылки
 
-[Адрес сервера](https://shamiren.diplom.nomoredomains.xyz/movies)
+[Адрес сайта](https://shamiren.diplom.nomoredomains.xyz)
 
 [Ссылка на backend часть проекта](https://github.com/Iri-Sha/movies-explorer-api.git)
-
-[Ссылку на пул реквест](https://github.com/Iri-Sha/movies-explorer-frontend/pull/2)
 
 [Ссылка на макет](https://disk.yandex.ru/d/bA-CViEQEqvxOQ)
