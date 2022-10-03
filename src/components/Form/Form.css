@@ -20,7 +20,19 @@
 }
 
 .form__inputs{
-    height: 335px;
+    height: 275px;
+}
+
+.form__error-message {
+    max-width: 100%;
+    min-height: 40px;
+    text-align: center;
+    color: #EE3465;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 0;
+    margin: 10px 0;
 }
 
 .form__button{
@@ -61,6 +73,8 @@
     margin-left: 6px;
     color: #3456F3;
     text-decoration: none;
+    border: none;
+    background: none;
 }
 
 .form__link:hover{
@@ -89,7 +103,7 @@
     }
 
     .form__inputs{
-        height: 423px;
+        height: 363px;
     }
 
     .form__button{

@@ -1,14 +1,23 @@
 import React from 'react';
 import './Login.css';
 import Form from '../Form/Form';
+import useFormWithValidation from '../../hooks/useValidationForm';
 
-function Login() {
+function Login({handleLoginSubmit, formError, isActiveForUpdate}) {
 
-    const email = "pochta@yandex.ru";
-    const password = "";
+    const {
+        values, handleChange, errors, isValid, resetForm,
+      } = useFormWithValidation();
+
+    function handleSubmit(e){
+        e.preventDefault();
+        handleLoginSubmit(values.email, values.password);
+        resetForm();
+    }
 
     return (
-        <Form title={"Рады видеть!"}
+        <Form
+            title={"Рады видеть!"}
             inputs={
                 <div className="login__inputs">
                     <label className="login__label">E-mail</label>
@@ -21,8 +30,11 @@ function Login() {
                         minLength="2"
                         maxLength="254"
                         required
-                        value={email}
+                        value={values.email || ''}
+                        onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
+                    <span className="login__input-error">{errors.email}</span>
                     <label className="login__label">Пароль</label>
                     <input
                         className="login__input"
@@ -32,14 +44,19 @@ function Login() {
                         placeholder="Пароль"
                         minLength="8"
                         required
-                        value={password}
+                        value={values.password || ''}
+                        onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
+                    <span className="login__input-error">{errors.password}</span>
                 </div>
             }
             button={"Войти"}
             span={"Ещё не зарегистрированы?"}
             isRegister={false}
-            isValid={true}
+            isValid={isValid}
+            onSubmit = {handleSubmit}
+            formError={formError}
         />
     );
 };

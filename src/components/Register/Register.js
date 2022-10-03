@@ -1,15 +1,23 @@
 import React from 'react';
 import './Register.css';
 import Form from '../Form/Form';
+import useFormWithValidation from '../../hooks/useValidationForm';
 
-function Register() {
+function Register({handleRegisterSubmit, formError, isActiveForUpdate}) {
 
-    const name = "Виталий";
-    const email = "pochta@yandex.ru";
-    const password = "password";
+    const {
+        values, handleChange, errors, isValid, resetForm,
+      } = useFormWithValidation();
+
+    function handleSubmit(e){
+        e.preventDefault();
+        handleRegisterSubmit(values.name, values.email, values.password);
+        resetForm();
+    }
 
     return (
-        <Form title={"Добро пожаловать!"}
+        <Form
+            title={"Добро пожаловать!"}
             inputs={
                 <div className="register__inputs">
                     <label className="register__label">Имя</label>
@@ -22,8 +30,11 @@ function Register() {
                         minLength="2"
                         maxLength="50"
                         required
-                        value={name}
+                        value={values.name || ''}
+                        onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
+                    <span className="register__input-error">{errors.name}</span>
                     <label className="register__label">E-mail</label>
                     <input
                         className="register__input"
@@ -34,8 +45,11 @@ function Register() {
                         minLength="2"
                         maxLength="254"
                         required
-                        value={email}
+                        value={values.email || ''}
+                        onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
+                    <span className="register__input-error">{errors.email}</span>
                     <label className="register__label">Пароль</label>
                     <input
                         className="register__input"
@@ -45,16 +59,20 @@ function Register() {
                         placeholder="Пароль"
                         minLength="8"
                         required
-                        value={password}
+                        value={values.password || ''}
+                        onChange={handleChange}
+                        disabled={!isActiveForUpdate}
                     />
+                    <span className="register__input-error">{errors.password}</span>
                 </div>
             }
             button={"Зарегистрироваться"}
             span={"Уже зарегистрированы?"}
             isRegister={true}
-            isValid={true}
+            isValid={isValid}
+            onSubmit = {handleSubmit}
+            formError={formError}
         />
-        
     );
 };
   
